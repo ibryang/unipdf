@@ -9,111 +9,953 @@
 // Use of this source code is governed by the UniDoc End User License Agreement
 // terms that can be accessed at https://unidoc.io/eula/
 
-package license ;import (_cd "bytes";_f "compress/gzip";_a "crypto";_cdg "crypto/aes";_ge "crypto/cipher";_fa "crypto/hmac";_cfe "crypto/rand";_gfa "crypto/rsa";_ce "crypto/sha256";_cg "crypto/sha512";_ea "crypto/x509";_ag "encoding/base64";_db "encoding/hex";
-_ga "encoding/json";_cf "encoding/pem";_gg "errors";_ac "fmt";_de "github.com/unidoc/unipdf/v4/common";_g "io";_cc "net";_e "net/http";_gf "os";_d "path/filepath";_b "sort";_gfd "strings";_gb "sync";_aa "time";);var _gdc map[string ]struct{};func MakeUnlicensedKey ()*LicenseKey {_edbf :=LicenseKey {};
-_edbf .CustomerName ="\u0055\u006e\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0064";_edbf .Tier =LicenseTierUnlicensed ;_edbf .CreatedAt =_aa .Now ().UTC ();_edbf .CreatedAtInt =_edbf .CreatedAt .Unix ();return &_edbf ;};type meteredStatusForm struct{};
-func (_bbe *LicenseKey )ToString ()string {if _bbe ._efd {return "M\u0065t\u0065\u0072\u0065\u0064\u0020\u0073\u0075\u0062s\u0063\u0072\u0069\u0070ti\u006f\u006e";};_aga :=_ac .Sprintf ("\u004ci\u0063e\u006e\u0073\u0065\u0020\u0049\u0064\u003a\u0020\u0025\u0073\u000a",_bbe .LicenseId );
-_aga +=_ac .Sprintf ("\u0043\u0075s\u0074\u006f\u006de\u0072\u0020\u0049\u0064\u003a\u0020\u0025\u0073\u000a",_bbe .CustomerId );_aga +=_ac .Sprintf ("\u0043u\u0073t\u006f\u006d\u0065\u0072\u0020N\u0061\u006de\u003a\u0020\u0025\u0073\u000a",_bbe .CustomerName );
-_aga +=_ac .Sprintf ("\u0054i\u0065\u0072\u003a\u0020\u0025\u0073\n",_bbe .Tier );_aga +=_ac .Sprintf ("\u0043r\u0065a\u0074\u0065\u0064\u0020\u0041\u0074\u003a\u0020\u0025\u0073\u000a",_de .UtcTimeFormat (_bbe .CreatedAt ));if _bbe .ExpiresAt ==nil {_aga +="\u0045x\u0070i\u0072\u0065\u0073\u0020\u0041t\u003a\u0020N\u0065\u0076\u0065\u0072\u000a";
-}else {_aga +=_ac .Sprintf ("\u0045x\u0070i\u0072\u0065\u0073\u0020\u0041\u0074\u003a\u0020\u0025\u0073\u000a",_de .UtcTimeFormat (*_bbe .ExpiresAt ));};_aga +=_ac .Sprintf ("\u0043\u0072\u0065\u0061\u0074\u006f\u0072\u003a\u0020\u0025\u0073\u0020<\u0025\u0073\u003e\u000a",_bbe .CreatorName ,_bbe .CreatorEmail );
-return _aga ;};var _gfb =MakeUnlicensedKey ();func _cfd (_dgd ,_agaa []byte )([]byte ,error ){_dgb :=make ([]byte ,_ag .URLEncoding .DecodedLen (len (_agaa )));_fad ,_adab :=_ag .URLEncoding .Decode (_dgb ,_agaa );if _adab !=nil {return nil ,_adab ;};_dgb =_dgb [:_fad ];
-_afg ,_adab :=_cdg .NewCipher (_dgd );if _adab !=nil {return nil ,_adab ;};if len (_dgb )< _cdg .BlockSize {return nil ,_gg .New ("c\u0069p\u0068\u0065\u0072\u0074\u0065\u0078\u0074\u0020t\u006f\u006f\u0020\u0073ho\u0072\u0074");};_ebdd :=_dgb [:_cdg .BlockSize ];
-_dgb =_dgb [_cdg .BlockSize :];_acff :=_ge .NewCFBDecrypter (_afg ,_ebdd );_acff .XORKeyStream (_dgb ,_dgb );return _dgb ,nil ;};func (_gdb *meteredClient )getStatus ()(meteredStatusResp ,error ){var _ddc meteredStatusResp ;_ddg :=_gdb ._ede +"\u002fm\u0065t\u0065\u0072\u0065\u0064\u002f\u0073\u0074\u0061\u0074\u0075\u0073";
-var _ace meteredStatusForm ;_ggf ,_abf :=_ga .Marshal (_ace );if _abf !=nil {return _ddc ,_abf ;};_gga ,_abf :=_abed (_ggf );if _abf !=nil {return _ddc ,_abf ;};_fbg ,_abf :=_e .NewRequest ("\u0050\u004f\u0053\u0054",_ddg ,_gga );if _abf !=nil {return _ddc ,_abf ;
-};_fbg .Header .Add ("\u0043\u006f\u006et\u0065\u006e\u0074\u002d\u0054\u0079\u0070\u0065","\u0061\u0070p\u006c\u0069\u0063a\u0074\u0069\u006f\u006e\u002f\u006a\u0073\u006f\u006e");_fbg .Header .Add ("\u0043\u006fn\u0074\u0065\u006et\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067","\u0067\u007a\u0069\u0070");
-_fbg .Header .Add ("\u0041c\u0063e\u0070\u0074\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067","\u0067\u007a\u0069\u0070");_fbg .Header .Add ("\u0058-\u0041\u0050\u0049\u002d\u004b\u0045Y",_gdb ._ceb );_aaa ,_abf :=_gdb ._bcc .Do (_fbg );if _abf !=nil {return _ddc ,_abf ;
-};defer _aaa .Body .Close ();if _aaa .StatusCode !=200{return _ddc ,_ac .Errorf ("\u0066\u0061i\u006c\u0065\u0064\u0020t\u006f\u0020c\u0068\u0065\u0063\u006b\u0069\u006e\u002c\u0020s\u0074\u0061\u0074\u0075\u0073\u0020\u0063\u006f\u0064\u0065\u0020\u0069s\u003a\u0020\u0025\u0064",_aaa .StatusCode );
-};_ae ,_abf :=_dad (_aaa );if _abf !=nil {return _ddc ,_abf ;};_abf =_ga .Unmarshal (_ae ,&_ddc );if _abf !=nil {return _ddc ,_abf ;};return _ddc ,nil ;};type reportState struct{Instance string `json:"inst"`;Next string `json:"n"`;Docs int64 `json:"d"`;
-NumErrors int64 `json:"e"`;LimitDocs bool `json:"ld"`;RemainingDocs int64 `json:"rd"`;LastReported _aa .Time `json:"lr"`;LastWritten _aa .Time `json:"lw"`;Usage map[string ]int `json:"u"`;UsageLogs []interface{}`json:"ul,omitempty"`;};func _gcbg ()([]string ,[]string ,error ){_dfa ,_dce :=_cc .Interfaces ();
-if _dce !=nil {return nil ,nil ,_dce ;};var _bdb []string ;var _gfc []string ;for _ ,_ccca :=range _dfa {if _ccca .Flags &_cc .FlagUp ==0||_cd .Equal (_ccca .HardwareAddr ,nil ){continue ;};_adf ,_abe :=_ccca .Addrs ();if _abe !=nil {return nil ,nil ,_abe ;
-};_fcg :=0;for _ ,_gacd :=range _adf {var _dff _cc .IP ;switch _baf :=_gacd .(type ){case *_cc .IPNet :_dff =_baf .IP ;case *_cc .IPAddr :_dff =_baf .IP ;};if _dff .IsLoopback (){continue ;};if _dff .To4 ()==nil {continue ;};_gfc =append (_gfc ,_dff .String ());
-_fcg ++;};_deaf :=_ccca .HardwareAddr .String ();if _deaf !=""&&_fcg > 0{_bdb =append (_bdb ,_deaf );};};return _bdb ,_gfc ,nil ;};func _cfa ()*meteredClient {_dg :=meteredClient {_ede :"h\u0074\u0074\u0070\u0073\u003a\u002f/\u0063\u006c\u006f\u0075\u0064\u002e\u0075\u006e\u0069d\u006f\u0063\u002ei\u006f/\u0061\u0070\u0069",_bcc :&_e .Client {Timeout :30*_aa .Second }};
-if _acc :=_gf .Getenv ("\u0055N\u0049\u0044\u004f\u0043_\u004c\u0049\u0043\u0045\u004eS\u0045_\u0053E\u0052\u0056\u0045\u0052\u005f\u0055\u0052L");_gfd .HasPrefix (_acc ,"\u0068\u0074\u0074\u0070"){_dg ._ede =_acc ;};return &_dg ;};type defaultStateHolder struct{};
-func (_cee *LicenseKey )TypeToString ()string {if _cee ._efd {return "M\u0065t\u0065\u0072\u0065\u0064\u0020\u0073\u0075\u0062s\u0063\u0072\u0069\u0070ti\u006f\u006e";};if _cee .Tier ==LicenseTierUnlicensed {return "\u0055\u006e\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0064";
-};if _cee .Tier ==LicenseTierCommunity {return "\u0041\u0047PL\u0076\u0033\u0020O\u0070\u0065\u006e\u0020Sou\u0072ce\u0020\u0043\u006f\u006d\u006d\u0075\u006eit\u0079\u0020\u004c\u0069\u0063\u0065\u006es\u0065";};if _cee .Tier ==LicenseTierIndividual ||_cee .Tier =="\u0069\u006e\u0064i\u0065"{return "\u0043\u006f\u006dm\u0065\u0072\u0063\u0069a\u006c\u0020\u004c\u0069\u0063\u0065\u006es\u0065\u0020\u002d\u0020\u0049\u006e\u0064\u0069\u0076\u0069\u0064\u0075\u0061\u006c";
-};return "\u0043\u006fm\u006d\u0065\u0072\u0063\u0069\u0061\u006c\u0020\u004c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u002d\u0020\u0042\u0075\u0073\u0069ne\u0073\u0073";};var _efa stateLoader =defaultStateHolder {};type meteredClient struct{_ede string ;
-_ceb string ;_bcc *_e .Client ;};func _bad (_feg string ,_ccb string ,_bdf string ,_gde bool )error {if _gfb ==nil {return _gg .New ("\u006e\u006f\u0020\u006c\u0069\u0063\u0065\u006e\u0073e\u0020\u006b\u0065\u0079");};if !_gfb ._efd ||len (_gfb ._edb )==0{return nil ;
-};if len (_feg )==0&&!_gde {return _gg .New ("\u0064\u006f\u0063\u004b\u0065\u0079\u0020\u006e\u006ft\u0020\u0073\u0065\u0074");};_gcc .Lock ();defer _gcc .Unlock ();if _gdc ==nil {_gdc =map[string ]struct{}{};};if _ba ==nil {_ba =map[string ]int {};};
-_aec :=0;if len (_feg )> 0{_ ,_fef :=_gdc [_feg ];if !_fef {_gdc [_feg ]=struct{}{};_aec ++;};if _gfb ._bb {_ccfd =append (_ccfd ,map[string ]interface{}{"\u0074\u0069\u006d\u0065":_aa .Now ().String (),"\u0066\u0075\u006e\u0063":_ccb ,"\u0072\u0065\u0066":_feg [:8],"\u0066\u0069\u006c\u0065":_bdf ,"\u0063\u006f\u0073\u0074":_aec });
-if _fef &&_aec ==0{_de .Log .Info ("\u0025\u0073\u0020\u0052\u0065\u0066\u003a\u0020\u0025\u0073\u0020\u007c\u0020\u0025\u0073 \u007c \u004e\u006f\u0020\u0063\u0072\u0065\u0064\u0069\u0074\u0020\u0075\u0073\u0065\u0064",_aa .Now ().String (),_feg [:8],_ccb );
-};};};if _aec ==0&&!_gde {return nil ;};_ba [_ccb ]++;_cgaf :=_aa .Now ();_bdd ,_bag :=_efa .loadState (_gfb ._edb );if _bag !=nil {_de .Log .Debug ("\u0045R\u0052\u004f\u0052\u003a\u0020\u0025v",_bag );return _bag ;};_bdd .UsageLogs =append (_bdd .UsageLogs ,_ccfd ...);
-if _bdd .Usage ==nil {_bdd .Usage =map[string ]int {};};for _fecg ,_ffd :=range _ba {if _fecg !=""{_bdd .Usage [_fecg ]+=_ffd ;};};_ba =nil ;const _gcd =24*_aa .Hour ;const _fedg =3*24*_aa .Hour ;if len (_bdd .Instance )==0||_cgaf .Sub (_bdd .LastReported )> _gcd ||(_bdd .LimitDocs &&_bdd .RemainingDocs <=_bdd .Docs +int64 (_aec ))||_gde {_feff ,_eagf :=_gf .Hostname ();
-if _eagf !=nil {return _eagf ;};_dbf :=_bdd .Docs ;_gca ,_ggad ,_eagf :=_gcbg ();if _eagf !=nil {_de .Log .Debug ("\u0055\u006e\u0061b\u006c\u0065\u0020\u0074o\u0020\u0067\u0065\u0074\u0020\u006c\u006fc\u0061\u006c\u0020\u0061\u0064\u0064\u0072\u0065\u0073\u0073\u003a\u0020\u0025\u0073",_eagf .Error ());
-_gca =append (_gca ,"\u0069n\u0066\u006f\u0072\u006da\u0074\u0069\u006f\u006e\u0020n\u006ft\u0020a\u0076\u0061\u0069\u006c\u0061\u0062\u006ce");_ggad =append (_ggad ,"\u0069n\u0066\u006f\u0072\u006da\u0074\u0069\u006f\u006e\u0020n\u006ft\u0020a\u0076\u0061\u0069\u006c\u0061\u0062\u006ce");
-}else {_b .Strings (_ggad );_b .Strings (_gca );_ggc ,_gfde :=_gcb ();if _gfde !=nil {return _gfde ;};_abb :=false ;for _ ,_fgb :=range _ggad {if _fgb ==_ggc .String (){_abb =true ;};};if !_abb {_ggad =append (_ggad ,_ggc .String ());};};_eecg :=_cfa ();
-_eecg ._ceb =_gfb ._edb ;_dbf +=int64 (_aec );_bgdc :=meteredUsageCheckinForm {Instance :_bdd .Instance ,Next :_bdd .Next ,UsageNumber :int (_dbf ),NumFailed :_bdd .NumErrors ,Hostname :_feff ,LocalIP :_gfd .Join (_ggad ,"\u002c\u0020"),MacAddress :_gfd .Join (_gca ,"\u002c\u0020"),Package :"\u0075\u006e\u0069\u0070\u0064\u0066",PackageVersion :_de .Version ,Usage :_bdd .Usage ,IsPersistentCache :_gfb ._faa ,Timestamp :_cgaf .Unix ()};
-if len (_gca )==0{_bgdc .MacAddress ="\u006e\u006f\u006e\u0065";};if _gfb ._bb {_bgdc .UsageLogs =_bdd .UsageLogs ;};_ade :=int64 (0);_ddagg :=_bdd .NumErrors ;_ged :=_cgaf ;_agc :=0;_badd :=_bdd .LimitDocs ;_eecd ,_eagf :=_eecg .checkinUsage (_bgdc );
-if _eagf !=nil {if _cgaf .Sub (_bdd .LastReported )> _fedg {if !_eecd .Success {return _gg .New (_eecd .Message );};return _gg .New ("\u0074\u006f\u006f\u0020\u006c\u006f\u006e\u0067\u0020\u0073\u0069\u006e\u0063\u0065\u0020\u006c\u0061\u0073\u0074\u0020\u0073\u0075\u0063\u0063e\u0073\u0073\u0066\u0075\u006c \u0063\u0068e\u0063\u006b\u0069\u006e");
-};_ade =_dbf ;_ddagg ++;_ged =_bdd .LastReported ;}else {_badd =_eecd .LimitDocs ;_agc =_eecd .RemainingDocs ;_ddagg =0;};if len (_eecd .Instance )==0{_eecd .Instance =_bgdc .Instance ;};if len (_eecd .Next )==0{_eecd .Next =_bgdc .Next ;};_eagf =_efa .updateState (_eecg ._ceb ,_eecd .Instance ,_eecd .Next ,int (_ade ),_badd ,_agc ,int (_ddagg ),_ged ,nil );
-if _eagf !=nil {return _eagf ;};if !_eecd .Success {return _ac .Errorf ("\u0065r\u0072\u006f\u0072\u003a\u0020\u0025s",_eecd .Message );};}else {_bag =_efa .updateState (_gfb ._edb ,_bdd .Instance ,_bdd .Next ,int (_bdd .Docs )+_aec ,_bdd .LimitDocs ,int (_bdd .RemainingDocs ),int (_bdd .NumErrors ),_bdd .LastReported ,_bdd .Usage ,_bdd .UsageLogs ...);
-if _bag !=nil {return _bag ;};};if _gfb ._bb &&len (_feg )> 0{_geg :="";if _bdf !=""{_geg =_ac .Sprintf ("\u0046i\u006c\u0065\u0020\u0025\u0073\u0020|",_bdf );};_de .Log .Info ("%\u0073\u0020\u007c\u0020\u0025\u0073\u0020\u0052\u0065\u0066\u003a\u0020\u0025\u0073\u0020\u007c\u0020\u0025s\u0020\u007c\u0020\u0025\u0064\u0020\u0063\u0072\u0065\u0064it\u0028\u0073\u0029 \u0075s\u0065\u0064",_cgaf .String (),_geg ,_feg [:8],_ccb ,_aec );
-};return nil ;};func (_cec defaultStateHolder )updateState (_fab ,_geb ,_accf string ,_ca int ,_fec bool ,_fcb int ,_ecd int ,_cff _aa .Time ,_ccfe map[string ]int ,_eea ...interface{})error {_bbg ,_dbe :=_bca ();if _dbe !=nil {return _dbe ;};if len (_fab )< 20{return _gg .New ("i\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006b\u0065\u0079");
-};_fdg :=[]byte (_fab );_bgc :=_cg .Sum512_256 (_fdg [:20]);_fbf :=_db .EncodeToString (_bgc [:]);_ffgf :=_d .Join (_bbg ,_fbf );var _eda reportState ;_eda .Docs =int64 (_ca );_eda .NumErrors =int64 (_ecd );_eda .LimitDocs =_fec ;_eda .RemainingDocs =int64 (_fcb );
-_eda .LastWritten =_aa .Now ().UTC ();_eda .LastReported =_cff ;_eda .Instance =_geb ;_eda .Next =_accf ;_eda .Usage =_ccfe ;_eda .UsageLogs =_eea ;_ffa ,_dbe :=_ga .Marshal (_eda );if _dbe !=nil {return _dbe ;};const _ceba ="\u0068\u00619\u004e\u004b\u0038]\u0052\u0062\u004c\u002a\u006d\u0034\u004c\u004b\u0057";
-_ffa ,_dbe =_fde ([]byte (_ceba ),_ffa );if _dbe !=nil {return _dbe ;};_dbe =_gf .WriteFile (_ffgf ,_ffa ,0600);if _dbe !=nil {return _dbe ;};return nil ;};func (_edc *LicenseKey )IsLicensed ()bool {return _edc .Tier !=LicenseTierUnlicensed ||_edc ._efd };
-const _dde ="U\u004eI\u0050\u0044\u0046\u005f\u0043\u0055\u0053\u0054O\u004d\u0045\u0052\u005fNA\u004d\u0045";func (_bfd defaultStateHolder )loadState (_beee string )(reportState ,error ){_edd ,_ddag :=_bca ();if _ddag !=nil {return reportState {},_ddag ;
-};_ddag =_gf .MkdirAll (_edd ,0777);if _ddag !=nil {return reportState {},_ddag ;};if len (_beee )< 20{return reportState {},_gg .New ("i\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006b\u0065\u0079");};_cgd :=[]byte (_beee );_aaae :=_cg .Sum512_256 (_cgd [:20]);
-_ebd :=_db .EncodeToString (_aaae [:]);_geag :=_d .Join (_edd ,_ebd );_aef ,_ddag :=_gf .ReadFile (_geag );if _ddag !=nil {if _gf .IsNotExist (_ddag ){return reportState {},nil ;};_de .Log .Debug ("\u0045R\u0052\u004f\u0052\u003a\u0020\u0025v",_ddag );
-return reportState {},_gg .New ("\u0069\u006e\u0076a\u006c\u0069\u0064\u0020\u0064\u0061\u0074\u0061");};const _eecb ="\u0068\u00619\u004e\u004b\u0038]\u0052\u0062\u004c\u002a\u006d\u0034\u004c\u004b\u0057";_aef ,_ddag =_cfd ([]byte (_eecb ),_aef );if _ddag !=nil {return reportState {},_ddag ;
-};var _agab reportState ;_ddag =_ga .Unmarshal (_aef ,&_agab );if _ddag !=nil {_de .Log .Debug ("\u0045\u0052\u0052OR\u003a\u0020\u0049\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u0064\u0061\u0074\u0061\u003a\u0020\u0025\u0076",_ddag );return reportState {},_gg .New ("\u0069\u006e\u0076a\u006c\u0069\u0064\u0020\u0064\u0061\u0074\u0061");
-};return _agab ,nil ;};func Track (docKey string ,useKey string ,docName string )error {return _bad (docKey ,useKey ,docName ,!_gfb ._faa );};const _bfg ="\u000a\u002d\u002d\u002d\u002d\u002d\u0042\u0045\u0047\u0049\u004e \u0050\u0055\u0042\u004c\u0049\u0043\u0020\u004b\u0045Y\u002d\u002d\u002d\u002d\u002d\u000a\u004d\u0049I\u0042\u0049\u006a\u0041NB\u0067\u006b\u0071\u0068\u006b\u0069G\u0039\u0077\u0030\u0042\u0041\u0051\u0045\u0046A\u0041\u004f\u0043\u0041\u0051\u0038\u0041\u004d\u0049\u0049\u0042\u0043\u0067\u004b\u0043\u0041\u0051\u0045A\u006dF\u0055\u0069\u0079\u0064\u0037\u0062\u0035\u0058\u006a\u0070\u006b\u0050\u0035\u0052\u0061\u0070\u0034\u0077\u000a\u0044\u0063\u0031d\u0079\u007a\u0049\u0051\u0034\u004c\u0065\u006b\u0078\u0072\u0076\u0079\u0074\u006e\u0045\u004d\u0070\u004e\u0055\u0062\u006f\u0036i\u0041\u0037\u0034\u0056\u0038\u0072\u0075\u005a\u004f\u0076\u0072\u0053\u0063\u0073\u0066\u0032\u0051\u0065\u004e9\u002f\u0071r\u0055\u0047\u0038\u0071\u0045\u0062\u0055\u0057\u0064\u006f\u0045\u0059\u0071+\u000a\u006f\u0074\u0046\u004e\u0041\u0046N\u0078\u006c\u0047\u0062\u0078\u0062\u0044\u0048\u0063\u0064\u0047\u0056\u0061\u004d\u0030\u004f\u0058\u0064\u0058g\u0044y\u004c5\u0061\u0049\u0045\u0061\u0067\u004c\u0030\u0063\u0035\u0070\u0077\u006a\u0049\u0064\u0050G\u0049\u006e\u0034\u0036\u0066\u0037\u0038\u0065\u004d\u004a\u002b\u004a\u006b\u0064\u0063\u0070\u0044\n\u0044\u004a\u0061\u0071\u0059\u0058d\u0072\u007a5\u004b\u0065\u0073\u0068\u006aS\u0069\u0049\u0061\u0061\u0037\u006d\u0065\u006e\u0042\u0049\u0041\u0058\u0053\u0034\u0055\u0046\u0078N\u0066H\u0068\u004e\u0030\u0048\u0043\u0059\u005a\u0059\u0071\u0051\u0047\u0037\u0062K+\u0073\u0035\u0072R\u0048\u006f\u006e\u0079\u0064\u004eW\u0045\u0047\u000a\u0048\u0038M\u0079\u0076\u00722\u0070\u0079\u0061\u0032K\u0072\u004d\u0075m\u0066\u006d\u0041\u0078\u0055\u0042\u0036\u0066\u0065\u006e\u0043\u002f4\u004f\u0030\u0057\u00728\u0067\u0066\u0050\u004f\u0055\u0038R\u0069\u0074\u006d\u0062\u0044\u0076\u0051\u0050\u0049\u0052\u0058\u004fL\u0034\u0076\u0054B\u0072\u0042\u0064\u0062a\u0041\u000a9\u006e\u0077\u004e\u0050\u002b\u0069\u002f\u002f\u0032\u0030\u004d\u00542\u0062\u0078\u006d\u0065\u0057\u0042\u002b\u0067\u0070\u0063\u0045\u0068G\u0070\u0058\u005a7\u0033\u0033\u0061\u007a\u0051\u0078\u0072\u0043\u0033\u004a\u0034\u0076\u0033C\u005a\u006d\u0045\u004eS\u0074\u0044\u004b\u002f\u004b\u0044\u0053\u0050\u004b\u0055\u0047\u0066\u00756\u000a\u0066\u0077I\u0044\u0041\u0051\u0041\u0042\u000a\u002d\u002d\u002d\u002d\u002dE\u004e\u0044\u0020\u0050\u0055\u0042\u004c\u0049\u0043 \u004b\u0045Y\u002d\u002d\u002d\u002d\u002d\n";
-func _bca ()(string ,error ){_beff :=_gfd .TrimSpace (_gf .Getenv (_adg ));if _beff ==""{_de .Log .Debug ("\u0024\u0025\u0073\u0020e\u006e\u0076\u0069\u0072\u006f\u006e\u006d\u0065\u006e\u0074\u0020\u0076\u0061\u0072\u0069\u0061\u0062l\u0065\u0020\u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064\u002e\u0020\u0057\u0069\u006c\u006c\u0020\u0075\u0073\u0065\u0020\u0068\u006f\u006d\u0065\u0020\u0064\u0069\u0072\u0065\u0063\u0074\u006f\u0072\u0079\u0020\u0074\u006f\u0020s\u0074\u006f\u0072\u0065\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020in\u0066o\u0072\u006d\u0061\u0074\u0069\u006f\u006e\u002e",_adg );
-_fdf :=_abee ();if len (_fdf )==0{return "",_ac .Errorf ("r\u0065\u0071\u0075\u0069\u0072\u0065\u0064\u0020\u0024\u0025\u0073\u0020\u0065\u006e\u0076\u0069\u0072\u006f\u006e\u006d\u0065\u006e\u0074\u0020\u0076\u0061r\u0069a\u0062\u006c\u0065\u0020o\u0072\u0020h\u006f\u006d\u0065\u0020\u0064\u0069\u0072\u0065\u0063\u0074\u006f\u0072\u0079\u0020\u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064",_adg );
-};_beff =_d .Join (_fdf ,"\u002eu\u006e\u0069\u0064\u006f\u0063");};_afcg :=_gf .MkdirAll (_beff ,0777);if _afcg !=nil {return "",_afcg ;};return _beff ,nil ;};func GetMeteredState ()(MeteredStatus ,error ){if _gfb ==nil {return MeteredStatus {},_gg .New ("\u006c\u0069\u0063\u0065ns\u0065\u0020\u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0073\u0065\u0074");
-};if !_gfb ._efd ||len (_gfb ._edb )==0{return MeteredStatus {},_gg .New ("\u0061p\u0069 \u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0073\u0065\u0074");};_cdgc ,_bef :=_efa .loadState (_gfb ._edb );if _bef !=nil {_de .Log .Debug ("\u0045R\u0052\u004f\u0052\u003a\u0020\u0025v",_bef );
-return MeteredStatus {},_bef ;};if _cdgc .Docs > 0{_ccd :=_bad ("","","",true );if _ccd !=nil {return MeteredStatus {},_ccd ;};};_gcc .Lock ();defer _gcc .Unlock ();_eg :=_cfa ();_eg ._ceb =_gfb ._edb ;_fcf ,_bef :=_eg .getStatus ();if _bef !=nil {return MeteredStatus {},_bef ;
-};if !_fcf .Valid {return MeteredStatus {},_gg .New ("\u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0076\u0061\u006c\u0069\u0064");};_fae :=MeteredStatus {OK :true ,Credits :_fcf .OrgCredits ,Used :_fcf .OrgUsed };return _fae ,nil ;};type LicenseKey struct{LicenseId string `json:"license_id"`;
-CustomerId string `json:"customer_id"`;CustomerName string `json:"customer_name"`;Tier string `json:"tier"`;CreatedAt _aa .Time `json:"-"`;CreatedAtInt int64 `json:"created_at"`;ExpiresAt *_aa .Time `json:"-"`;ExpiresAtInt int64 `json:"expires_at"`;CreatedBy string `json:"created_by"`;
-CreatorName string `json:"creator_name"`;CreatorEmail string `json:"creator_email"`;UniPDF bool `json:"unipdf"`;UniOffice bool `json:"unioffice"`;UniHTML bool `json:"unihtml"`;Trial bool `json:"trial"`;_efd bool ;_edb string ;_faa bool ;_bb bool ;};var _bee =_aa .Date (2020,1,1,0,0,0,0,_aa .UTC );
-type meteredStatusResp struct{Valid bool `json:"valid"`;OrgCredits int64 `json:"org_credits"`;OrgUsed int64 `json:"org_used"`;OrgRemaining int64 `json:"org_remaining"`;};type meteredUsageCheckinForm struct{Instance string `json:"inst"`;Next string `json:"next"`;
-UsageNumber int `json:"usage_number"`;NumFailed int64 `json:"num_failed"`;Hostname string `json:"hostname"`;LocalIP string `json:"local_ip"`;MacAddress string `json:"mac_address"`;Package string `json:"package"`;PackageVersion string `json:"package_version"`;
-Usage map[string ]int `json:"u"`;IsPersistentCache bool `json:"is_persistent_cache"`;Timestamp int64 `json:"timestamp"`;UsageLogs []interface{}`json:"ul,omitempty"`;};func SetLicenseKey (content string ,customerName string )error {_ccab ,_bagd :=_bce (content );
-if _bagd !=nil {_de .Log .Error ("\u004c\u0069c\u0065\u006e\u0073\u0065\u0020\u0063\u006f\u0064\u0065\u0020\u0064\u0065\u0063\u006f\u0064\u0065\u0020\u0065\u0072\u0072\u006f\u0072: \u0025\u0076",_bagd );return _bagd ;};if !_gfd .EqualFold (_ccab .CustomerName ,customerName ){_de .Log .Error ("L\u0069ce\u006es\u0065 \u0063\u006f\u0064\u0065\u0020i\u0073\u0073\u0075e\u0020\u002d\u0020\u0043\u0075s\u0074\u006f\u006de\u0072\u0020\u006e\u0061\u006d\u0065\u0020\u006d\u0069\u0073\u006da\u0074\u0063\u0068, e\u0078\u0070\u0065\u0063\u0074\u0065d\u0020\u0027\u0025\u0073\u0027\u002c\u0020\u0062\u0075\u0074\u0020\u0067o\u0074 \u0027\u0025\u0073\u0027",_ccab .CustomerName ,customerName );
-return _ac .Errorf ("\u0063\u0075\u0073\u0074\u006fm\u0065\u0072\u0020\u006e\u0061\u006d\u0065\u0020\u006d\u0069\u0073\u006d\u0061t\u0063\u0068\u002c\u0020\u0065\u0078\u0070\u0065\u0063\u0074\u0065\u0064\u0020\u0027\u0025\u0073\u0027\u002c\u0020\u0062\u0075\u0074\u0020\u0067\u006f\u0074\u0020\u0027\u0025\u0073'",_ccab .CustomerName ,customerName );
-};_bagd =_ccab .Validate ();if _bagd !=nil {_de .Log .Error ("\u004c\u0069\u0063\u0065\u006e\u0073e\u0020\u0063\u006f\u0064\u0065\u0020\u0076\u0061\u006c\u0069\u0064\u0061\u0074i\u006f\u006e\u0020\u0065\u0072\u0072\u006fr\u003a\u0020\u0025\u0076",_bagd );
-return _bagd ;};_gfb =&_ccab ;return nil ;};var _gfdc =_aa .Date (2019,6,6,0,0,0,0,_aa .UTC );func _beeb (_cgg *_e .Response )(_g .ReadCloser ,error ){var _bda error ;var _fdfg _g .ReadCloser ;switch _gfd .ToLower (_cgg .Header .Get ("\u0043\u006fn\u0074\u0065\u006et\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067")){case "\u0067\u007a\u0069\u0070":_fdfg ,_bda =_f .NewReader (_cgg .Body );
-if _bda !=nil {return _fdfg ,_bda ;};defer _fdfg .Close ();default:_fdfg =_cgg .Body ;};return _fdfg ,nil ;};var _gcc =&_gb .Mutex {};func _aae (_bf string ,_be string ,_da string )(string ,error ){_cca :=_gfd .Index (_da ,_bf );if _cca ==-1{return "",_ac .Errorf ("\u0068\u0065a\u0064\u0065\u0072 \u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064");
-};_eag :=_gfd .Index (_da ,_be );if _eag ==-1{return "",_ac .Errorf ("\u0066\u006fo\u0074\u0065\u0072 \u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064");};_dd :=_cca +len (_bf )+1;return _da [_dd :_eag -1],nil ;};func (_dc *LicenseKey )Validate ()error {if _dc ._efd {return nil ;
-};if len (_dc .LicenseId )< 10{return _ac .Errorf ("i\u006e\u0076\u0061\u006c\u0069\u0064 \u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020L\u0069\u0063\u0065n\u0073e\u0020\u0049\u0064");};if len (_dc .CustomerId )< 10{return _ac .Errorf ("\u0069\u006e\u0076\u0061l\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065:\u0020C\u0075\u0073\u0074\u006f\u006d\u0065\u0072 \u0049\u0064");
-};if len (_dc .CustomerName )< 1{return _ac .Errorf ("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069c\u0065\u006e\u0073\u0065\u003a\u0020\u0043u\u0073\u0074\u006f\u006d\u0065\u0072\u0020\u004e\u0061\u006d\u0065");};if _fac .After (_dc .CreatedAt ){return _ac .Errorf ("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0043\u0072\u0065\u0061\u0074\u0065\u0064 \u0041\u0074\u0020\u0069\u0073 \u0069\u006ev\u0061\u006c\u0069\u0064");
-};if _dc .ExpiresAt ==nil {_af :=_dc .CreatedAt .AddDate (1,0,0);if _bee .After (_af ){_af =_bee ;};_dc .ExpiresAt =&_af ;};if _dc .CreatedAt .After (*_dc .ExpiresAt ){return _ac .Errorf ("i\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0043\u0072\u0065\u0061\u0074\u0065\u0064\u0020\u0041\u0074 \u0063a\u006e\u006e\u006f\u0074 \u0062\u0065 \u0047\u0072\u0065\u0061\u0074\u0065\u0072\u0020\u0074\u0068\u0061\u006e\u0020\u0045\u0078\u0070\u0069\u0072\u0065\u0073\u0020\u0041\u0074");
-};if _dc .isExpired (){_ada :="\u0054\u0068\u0065\u0020\u006c\u0069c\u0065\u006e\u0073\u0065\u0020\u0068\u0061\u0073\u0020\u0061\u006c\u0072\u0065a\u0064\u0079\u0020\u0065\u0078\u0070\u0069r\u0065\u0064\u002e\u000a"+"\u0059o\u0075\u0020\u006d\u0061y\u0020n\u0065\u0065\u0064\u0020\u0074\u006f\u0020\u0075\u0070d\u0061\u0074\u0065\u0020\u0074\u0068\u0065\u0020l\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u006b\u0065\u0079\u0020t\u006f\u0020\u0074\u0068\u0065\u0020\u006e\u0065\u0077\u0065s\u0074\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u006b\u0065\u0079\u0020\u0066\u006f\u0072\u0020\u0079o\u0075\u0072\u0020\u006f\u0072\u0067\u0061\u006e\u0069\u007a\u0061\u0074i\u006fn\u002e\u000a"+"\u0054o\u0020\u0066\u0069\u006ed y\u006f\u0075\u0072\u0020n\u0065\u0077\u0065\u0073\u0074\u0020\u006c\u0069\u0063\u0065n\u0073\u0065\u0020\u006b\u0065\u0079\u002c\u0020\u0067\u006f\u0020\u0074\u006f\u0020\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063l\u006f\u0075\u0064\u002e\u0075\u006e\u0069\u0064oc\u002e\u0069\u006f \u0061\u006e\u0064\u0020\u0067o\u0020t\u006f\u0020\u0074\u0068\u0065\u0020\u006c\u0069\u0063e\u006e\u0073\u0065\u0020\u006d\u0065\u006e\u0075\u002e";
-return _ac .Errorf ("\u0069\u006e\u0076\u0061li\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0025\u0073",_ada );};if len (_dc .CreatorName )< 1{return _ac .Errorf ("\u0069\u006ev\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0043\u0072\u0065\u0061\u0074\u006f\u0072\u0020na\u006d\u0065");
-};if len (_dc .CreatorEmail )< 1{return _ac .Errorf ("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069c\u0065\u006e\u0073\u0065\u003a\u0020\u0043r\u0065\u0061\u0074\u006f\u0072\u0020\u0065\u006d\u0061\u0069\u006c");};if _dc .CreatedAt .After (_gfdc ){if !_dc .UniPDF {return _ac .Errorf ("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065:\u0020\u0054\u0068\u0069\u0073\u0020\u0055\u006e\u0069\u0044\u006f\u0063\u0020k\u0065\u0079\u0020\u0069\u0073\u0020\u0069\u006e\u0076\u0061\u006c\u0069d \u0066\u006f\u0072\u0020\u0055\u006e\u0069\u0050\u0044\u0046");
-};};return nil ;};func SetMeteredKeyPersistentCache (val bool ){_gfb ._faa =val };func (_ccf *LicenseKey )getExpiryDateToCompare ()_aa .Time {if _ccf .Trial {return _aa .Now ().UTC ();};return _de .ReleasedAt ;};func (_bfa *meteredClient )checkinUsage (_ebe meteredUsageCheckinForm )(meteredUsageCheckinResp ,error ){_ebe .Package ="\u0075\u006e\u0069\u0070\u0064\u0066";
-_ebe .PackageVersion =_de .Version ;var _cebc meteredUsageCheckinResp ;_adaf :=_bfa ._ede +"\u002f\u006d\u0065\u0074er\u0065\u0064\u002f\u0075\u0073\u0061\u0067\u0065\u005f\u0063\u0068\u0065\u0063\u006bi\u006e";_dda ,_bgd :=_ga .Marshal (_ebe );if _bgd !=nil {return _cebc ,_bgd ;
-};_dbd ,_bgd :=_abed (_dda );if _bgd !=nil {return _cebc ,_bgd ;};_dga ,_bgd :=_e .NewRequest ("\u0050\u004f\u0053\u0054",_adaf ,_dbd );if _bgd !=nil {return _cebc ,_bgd ;};_dga .Header .Add ("\u0043\u006f\u006et\u0065\u006e\u0074\u002d\u0054\u0079\u0070\u0065","\u0061\u0070p\u006c\u0069\u0063a\u0074\u0069\u006f\u006e\u002f\u006a\u0073\u006f\u006e");
-_dga .Header .Add ("\u0043\u006fn\u0074\u0065\u006et\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067","\u0067\u007a\u0069\u0070");_dga .Header .Add ("\u0041c\u0063e\u0070\u0074\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067","\u0067\u007a\u0069\u0070");
-_dga .Header .Add ("\u0058-\u0041\u0050\u0049\u002d\u004b\u0045Y",_bfa ._ceb );_bd ,_bgd :=_bfa ._bcc .Do (_dga );if _bgd !=nil {return _cebc ,_bgd ;};defer _bd .Body .Close ();if _bd .StatusCode !=200{_fd ,_gbfe :=_dad (_bd );if _gbfe !=nil {return _cebc ,_gbfe ;
-};_gbfe =_ga .Unmarshal (_fd ,&_cebc );if _gbfe !=nil {return _cebc ,_gbfe ;};return _cebc ,_ac .Errorf ("\u0066\u0061i\u006c\u0065\u0064\u0020t\u006f\u0020c\u0068\u0065\u0063\u006b\u0069\u006e\u002c\u0020s\u0074\u0061\u0074\u0075\u0073\u0020\u0063\u006f\u0064\u0065\u0020\u0069s\u003a\u0020\u0025\u0064",_bd .StatusCode );
-};_df :=_bd .Header .Get ("\u0058\u002d\u0055\u0043\u002d\u0053\u0069\u0067\u006ea\u0074\u0075\u0072\u0065");_gbd :=_cac (_ebe .MacAddress ,string (_dda ));if _gbd !=_df {_de .Log .Error ("I\u006e\u0076\u0061l\u0069\u0064\u0020\u0072\u0065\u0073\u0070\u006f\u006e\u0073\u0065\u0020\u0073\u0069\u0067\u006e\u0061\u0074\u0075\u0072\u0065\u002c\u0020\u0073\u0065t\u0020\u0074\u0068e\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u0073\u0065\u0072\u0076e\u0072\u0020\u0074\u006f \u0068\u0074\u0074\u0070s\u003a\u002f\u002f\u0063\u006c\u006f\u0075\u0064\u002e\u0075\u006e\u0069\u0064\u006f\u0063\u002e\u0069o\u002f\u0061\u0070\u0069");
-return _cebc ,_gg .New ("\u0066\u0061\u0069l\u0065\u0064\u0020\u0074\u006f\u0020\u0063\u0068\u0065\u0063\u006b\u0069\u006e\u002c\u0020\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u0073\u0065\u0072\u0076\u0065\u0072 \u0072\u0065\u0073\u0070\u006f\u006e\u0073\u0065");
-};_aaab ,_bgd :=_dad (_bd );if _bgd !=nil {return _cebc ,_bgd ;};_bgd =_ga .Unmarshal (_aaab ,&_cebc );if _bgd !=nil {return _cebc ,_bgd ;};return _cebc ,nil ;};const _fcbf ="\u0055\u004e\u0049\u0050DF\u005f\u004c\u0049\u0043\u0045\u004e\u0053\u0045\u005f\u0050\u0041\u0054\u0048";
-func TrackUse (useKey string ){if _gfb ==nil {return ;};if !_gfb ._efd ||len (_gfb ._edb )==0{return ;};if len (useKey )==0{return ;};_gcc .Lock ();defer _gcc .Unlock ();if _ba ==nil {_ba =map[string ]int {};};_ba [useKey ]++;};func _abed (_cebf []byte )(_g .Reader ,error ){_bbgd :=new (_cd .Buffer );
-_acfa :=_f .NewWriter (_bbgd );_acfa .Write (_cebf );_bfe :=_acfa .Close ();if _bfe !=nil {return nil ,_bfe ;};return _bbgd ,nil ;};func (_faf *LicenseKey )isExpired ()bool {return _faf .getExpiryDateToCompare ().After (*_faf .ExpiresAt )};type MeteredStatus struct{OK bool ;
-Credits int64 ;Used int64 ;};func _gcb ()(_cc .IP ,error ){_dbfd ,_ccc :=_cc .Dial ("\u0075\u0064\u0070","\u0038\u002e\u0038\u002e\u0038\u002e\u0038\u003a\u0038\u0030");if _ccc !=nil {return nil ,_ccc ;};defer _dbfd .Close ();_aebg :=_dbfd .LocalAddr ().(*_cc .UDPAddr );
-return _aebg .IP ,nil ;};const (_cfef ="\u002d\u002d\u002d--\u0042\u0045\u0047\u0049\u004e\u0020\u0055\u004e\u0049D\u004fC\u0020L\u0049C\u0045\u004e\u0053\u0045\u0020\u004b\u0045\u0059\u002d\u002d\u002d\u002d\u002d";_ee ="\u002d\u002d\u002d\u002d\u002d\u0045\u004e\u0044\u0020\u0055\u004e\u0049\u0044\u004f\u0043 \u004cI\u0043\u0045\u004e\u0053\u0045\u0020\u004b\u0045\u0059\u002d\u002d\u002d\u002d\u002d";
-);func SetMeteredKey (apiKey string )error {if len (apiKey )==0{_de .Log .Error ("\u004d\u0065\u0074\u0065\u0072e\u0064\u0020\u004c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u0041\u0050\u0049 \u004b\u0065\u0079\u0020\u006d\u0075\u0073\u0074\u0020\u006e\u006f\u0074\u0020\u0062\u0065\u0020\u0065\u006d\u0070\u0074\u0079");
-_de .Log .Error ("\u002d\u0020\u0047\u0072\u0061\u0062\u0020\u006f\u006e\u0065\u0020\u0069\u006e\u0020\u0074h\u0065\u0020\u0046\u0072\u0065\u0065\u0020\u0054\u0069\u0065\u0072\u0020\u0061t\u0020\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063\u006c\u006fud\u002e\u0075\u006e\u0069\u0064\u006f\u0063\u002e\u0069\u006f");
-return _ac .Errorf ("\u006de\u0074\u0065\u0072e\u0064\u0020\u006ci\u0063en\u0073\u0065\u0020\u0061\u0070\u0069\u0020k\u0065\u0079\u0020\u006d\u0075\u0073\u0074\u0020\u006e\u006f\u0074\u0020\u0062\u0065\u0020\u0065\u006d\u0070\u0074\u0079\u003a\u0020\u0063\u0072\u0065\u0061\u0074\u0065 o\u006ee\u0020\u0061\u0074\u0020\u0068\u0074t\u0070\u0073\u003a\u002f\u002fc\u006c\u006f\u0075\u0064\u002e\u0075\u006e\u0069\u0064\u006f\u0063.\u0069\u006f");
-};if _gfb !=nil &&(_gfb ._efd ||_gfb .Tier !=LicenseTierUnlicensed ){_de .Log .Error ("\u0045\u0052\u0052\u004f\u0052:\u0020\u0043\u0061\u006e\u006eo\u0074 \u0073\u0065\u0074\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u006b\u0065\u0079\u0020\u0074\u0077\u0069c\u0065\u0020\u002d\u0020\u0053\u0068\u006f\u0075\u006c\u0064\u0020\u006a\u0075\u0073\u0074\u0020\u0069\u006e\u0069\u0074\u0069\u0061\u006c\u0069z\u0065\u0020\u006f\u006e\u0063\u0065");
-return _gg .New ("\u006c\u0069\u0063en\u0073\u0065\u0020\u006b\u0065\u0079\u0020\u0061\u006c\u0072\u0065\u0061\u0064\u0079\u0020\u0073\u0065\u0074");};_bcb :=_cfa ();_bcb ._ceb =apiKey ;_fc ,_aeb :=_bcb .getStatus ();if _aeb !=nil {return _aeb ;};if !_fc .Valid {return _gg .New ("\u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0076\u0061\u006c\u0069\u0064");
-};_dfe :=&LicenseKey {_efd :true ,_edb :apiKey ,_faa :true };_gfb =_dfe ;return nil ;};func SetMeteredKeyUsageLogVerboseMode (val bool ){_gfb ._bb =val };type stateLoader interface{loadState (_ceg string )(reportState ,error );updateState (_fg ,_ddgg ,_fbgf string ,_ggd int ,_bgb bool ,_aaf int ,_afc int ,_ege _aa .Time ,_gabg map[string ]int ,_daf ...interface{})error ;
-};var _ccfd []interface{};type meteredUsageCheckinResp struct{Instance string `json:"inst"`;Next string `json:"next"`;Success bool `json:"success"`;Message string `json:"message"`;RemainingDocs int `json:"rd"`;LimitDocs bool `json:"ld"`;};func _abee ()string {_gdeg :=_gf .Getenv ("\u0048\u004f\u004d\u0045");
-if len (_gdeg )==0{_gdeg ,_ =_gf .UserHomeDir ();};return _gdeg ;};const (LicenseTierUnlicensed ="\u0075\u006e\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0064";LicenseTierCommunity ="\u0063o\u006d\u006d\u0075\u006e\u0069\u0074y";LicenseTierIndividual ="\u0069\u006e\u0064\u0069\u0076\u0069\u0064\u0075\u0061\u006c";
-LicenseTierBusiness ="\u0062\u0075\u0073\u0069\u006e\u0065\u0073\u0073";);func GetLicenseKey ()*LicenseKey {if _gfb ==nil {return nil ;};_dab :=*_gfb ;return &_dab ;};func init (){_abeg :=_gf .Getenv (_fcbf );_cde :=_gf .Getenv (_dde );if len (_abeg )==0||len (_cde )==0{return ;
-};_dcf ,_eeb :=_gf .ReadFile (_abeg );if _eeb !=nil {_de .Log .Error ("\u0055\u006eab\u006c\u0065\u0020t\u006f\u0020\u0072\u0065ad \u006cic\u0065\u006e\u0073\u0065\u0020\u0063\u006fde\u0020\u0066\u0069\u006c\u0065\u003a\u0020%\u0076",_eeb );return ;};_eeb =SetLicenseKey (string (_dcf ),_cde );
-if _eeb !=nil {_de .Log .Error ("\u0055\u006e\u0061b\u006c\u0065\u0020\u0074o\u0020\u006c\u006f\u0061\u0064\u0020\u006ci\u0063\u0065\u006e\u0073\u0065\u0020\u0063\u006f\u0064\u0065\u003a\u0020\u0025\u0076",_eeb );return ;};};func _bce (_gab string )(LicenseKey ,error ){var _eec LicenseKey ;
-_eb ,_efc :=_aae (_cfef ,_ee ,_gab );if _efc !=nil {return _eec ,_efc ;};_gae ,_efc :=_aab (_bfg ,_eb );if _efc !=nil {return _eec ,_efc ;};_efc =_ga .Unmarshal (_gae ,&_eec );if _efc !=nil {return _eec ,_efc ;};_eec .CreatedAt =_aa .Unix (_eec .CreatedAtInt ,0);
-if _eec .ExpiresAtInt > 0{_bga :=_aa .Unix (_eec .ExpiresAtInt ,0);_eec .ExpiresAt =&_bga ;};return _eec ,nil ;};func _dad (_ebdc *_e .Response )([]byte ,error ){var _eed []byte ;_dfb ,_ffac :=_beeb (_ebdc );if _ffac !=nil {return _eed ,_ffac ;};return _g .ReadAll (_dfb );
-};var _fac =_aa .Date (2010,1,1,0,0,0,0,_aa .UTC );func _cac (_efad ,_dbg string )string {_ebg :=[]byte (_efad );_bdbe :=_fa .New (_ce .New ,_ebg );_bdbe .Write ([]byte (_dbg ));return _ag .StdEncoding .EncodeToString (_bdbe .Sum (nil ));};func _ff (_cga string ,_ffc []byte )(string ,error ){_gbf ,_ :=_cf .Decode ([]byte (_cga ));
-if _gbf ==nil {return "",_ac .Errorf ("\u0050\u0072\u0069\u0076\u004b\u0065\u0079\u0020\u0066a\u0069\u006c\u0065\u0064");};_ab ,_eee :=_ea .ParsePKCS1PrivateKey (_gbf .Bytes );if _eee !=nil {return "",_eee ;};_fe :=_cg .New ();_fe .Write (_ffc );_bg :=_fe .Sum (nil );
-_gac ,_eee :=_gfa .SignPKCS1v15 (_cfe .Reader ,_ab ,_a .SHA512 ,_bg );if _eee !=nil {return "",_eee ;};_gea :=_ag .StdEncoding .EncodeToString (_ffc );_gea +="\u000a\u002b\u000a";_gea +=_ag .StdEncoding .EncodeToString (_gac );return _gea ,nil ;};const _adg ="\u0055N\u0049D\u004f\u0043\u005f\u004c\u0049C\u0045\u004eS\u0045\u005f\u0044\u0049\u0052";
-func _aab (_geab string ,_ad string )([]byte ,error ){var (_gbg int ;_ffg string ;);for _ ,_ffg =range []string {"\u000a\u002b\u000a","\u000d\u000a\u002b\r\u000a","\u0020\u002b\u0020"}{if _gbg =_gfd .Index (_ad ,_ffg );_gbg !=-1{break ;};};if _gbg ==-1{return nil ,_ac .Errorf ("\u0069\u006e\u0076al\u0069\u0064\u0020\u0069\u006e\u0070\u0075\u0074\u002c \u0073i\u0067n\u0061t\u0075\u0072\u0065\u0020\u0073\u0065\u0070\u0061\u0072\u0061\u0074\u006f\u0072");
-};_dea :=_ad [:_gbg ];_bc :=_gbg +len (_ffg );_fb :=_ad [_bc :];if _dea ==""||_fb ==""{return nil ,_ac .Errorf ("\u0069n\u0076\u0061l\u0069\u0064\u0020\u0069n\u0070\u0075\u0074,\u0020\u006d\u0069\u0073\u0073\u0069\u006e\u0067\u0020or\u0069\u0067\u0069n\u0061\u006c \u006f\u0072\u0020\u0073\u0069\u0067n\u0061\u0074u\u0072\u0065");
-};_bcg ,_cdge :=_ag .StdEncoding .DecodeString (_dea );if _cdge !=nil {return nil ,_ac .Errorf ("\u0069\u006e\u0076\u0061li\u0064\u0020\u0069\u006e\u0070\u0075\u0074\u0020\u006f\u0072\u0069\u0067\u0069\u006ea\u006c");};_ggb ,_cdge :=_ag .StdEncoding .DecodeString (_fb );
-if _cdge !=nil {return nil ,_ac .Errorf ("\u0069\u006e\u0076al\u0069\u0064\u0020\u0069\u006e\u0070\u0075\u0074\u0020\u0073\u0069\u0067\u006e\u0061\u0074\u0075\u0072\u0065");};_ffcc ,_ :=_cf .Decode ([]byte (_geab ));if _ffcc ==nil {return nil ,_ac .Errorf ("\u0050\u0075\u0062\u004b\u0065\u0079\u0020\u0066\u0061\u0069\u006c\u0065\u0064");
-};_ed ,_cdge :=_ea .ParsePKIXPublicKey (_ffcc .Bytes );if _cdge !=nil {return nil ,_cdge ;};_fed :=_ed .(*_gfa .PublicKey );if _fed ==nil {return nil ,_ac .Errorf ("\u0050u\u0062\u004b\u0065\u0079\u0020\u0063\u006f\u006e\u0076\u0065\u0072s\u0069\u006f\u006e\u0020\u0066\u0061\u0069\u006c\u0065\u0064");
-};_gd :=_cg .New ();_gd .Write (_bcg );_cb :=_gd .Sum (nil );_cdge =_gfa .VerifyPKCS1v15 (_fed ,_a .SHA512 ,_cb ,_ggb );if _cdge !=nil {return nil ,_cdge ;};return _bcg ,nil ;};func _fde (_bcd ,_ccfg []byte )([]byte ,error ){_edcd ,_bfb :=_cdg .NewCipher (_bcd );
-if _bfb !=nil {return nil ,_bfb ;};_afe :=make ([]byte ,_cdg .BlockSize +len (_ccfg ));_cea :=_afe [:_cdg .BlockSize ];if _ ,_aefc :=_g .ReadFull (_cfe .Reader ,_cea );_aefc !=nil {return nil ,_aefc ;};_accg :=_ge .NewCFBEncrypter (_edcd ,_cea );_accg .XORKeyStream (_afe [_cdg .BlockSize :],_ccfg );
-_aba :=make ([]byte ,_ag .URLEncoding .EncodedLen (len (_afe )));_ag .URLEncoding .Encode (_aba ,_afe );return _aba ,nil ;};var _ba map[string ]int ;
+package license
+
+import (
+	_cd "bytes"
+	_f "compress/gzip"
+	_a "crypto"
+	_cdg "crypto/aes"
+	_ge "crypto/cipher"
+	_fa "crypto/hmac"
+	_cfe "crypto/rand"
+	_gfa "crypto/rsa"
+	_ce "crypto/sha256"
+	_cg "crypto/sha512"
+	_ea "crypto/x509"
+	_ag "encoding/base64"
+	_db "encoding/hex"
+	_ga "encoding/json"
+	_cf "encoding/pem"
+	_gg "errors"
+	_ac "fmt"
+	_g "io"
+	_cc "net"
+	_e "net/http"
+	_gf "os"
+	_d "path/filepath"
+	_b "sort"
+	_gfd "strings"
+	_gb "sync"
+	_aa "time"
+
+	_de "github.com/unidoc/unipdf/v4/common"
+)
+
+var _gdc map[string]struct{}
+
+func MakeUnlicensedKey() *LicenseKey {
+	_edbf := LicenseKey{}
+	_edbf.CustomerName = "\u0055\u006e\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0064"
+	_edbf.Tier = LicenseTierUnlicensed
+	_edbf.CreatedAt = _aa.Now().UTC()
+	_edbf.CreatedAtInt = _edbf.CreatedAt.Unix()
+	return &_edbf
+}
+
+type meteredStatusForm struct{}
+
+func (_bbe *LicenseKey) ToString() string {
+	if _bbe._efd {
+		return "M\u0065t\u0065\u0072\u0065\u0064\u0020\u0073\u0075\u0062s\u0063\u0072\u0069\u0070ti\u006f\u006e"
+	}
+	_aga := _ac.Sprintf("\u004ci\u0063e\u006e\u0073\u0065\u0020\u0049\u0064\u003a\u0020\u0025\u0073\u000a", _bbe.LicenseId)
+	_aga += _ac.Sprintf("\u0043\u0075s\u0074\u006f\u006de\u0072\u0020\u0049\u0064\u003a\u0020\u0025\u0073\u000a", _bbe.CustomerId)
+	_aga += _ac.Sprintf("\u0043u\u0073t\u006f\u006d\u0065\u0072\u0020N\u0061\u006de\u003a\u0020\u0025\u0073\u000a", _bbe.CustomerName)
+	_aga += _ac.Sprintf("\u0054i\u0065\u0072\u003a\u0020\u0025\u0073\n", _bbe.Tier)
+	_aga += _ac.Sprintf("\u0043r\u0065a\u0074\u0065\u0064\u0020\u0041\u0074\u003a\u0020\u0025\u0073\u000a", _de.UtcTimeFormat(_bbe.CreatedAt))
+	if _bbe.ExpiresAt == nil {
+		_aga += "\u0045x\u0070i\u0072\u0065\u0073\u0020\u0041t\u003a\u0020N\u0065\u0076\u0065\u0072\u000a"
+	} else {
+		_aga += _ac.Sprintf("\u0045x\u0070i\u0072\u0065\u0073\u0020\u0041\u0074\u003a\u0020\u0025\u0073\u000a", _de.UtcTimeFormat(*_bbe.ExpiresAt))
+	}
+	_aga += _ac.Sprintf("\u0043\u0072\u0065\u0061\u0074\u006f\u0072\u003a\u0020\u0025\u0073\u0020<\u0025\u0073\u003e\u000a", _bbe.CreatorName, _bbe.CreatorEmail)
+	return _aga
+}
+
+var _gfb = MakeUnlicensedKey()
+
+func _cfd(_dgd, _agaa []byte) ([]byte, error) {
+	_dgb := make([]byte, _ag.URLEncoding.DecodedLen(len(_agaa)))
+	_fad, _adab := _ag.URLEncoding.Decode(_dgb, _agaa)
+	if _adab != nil {
+		return nil, _adab
+	}
+	_dgb = _dgb[:_fad]
+	_afg, _adab := _cdg.NewCipher(_dgd)
+	if _adab != nil {
+		return nil, _adab
+	}
+	if len(_dgb) < _cdg.BlockSize {
+		return nil, _gg.New("c\u0069p\u0068\u0065\u0072\u0074\u0065\u0078\u0074\u0020t\u006f\u006f\u0020\u0073ho\u0072\u0074")
+	}
+	_ebdd := _dgb[:_cdg.BlockSize]
+	_dgb = _dgb[_cdg.BlockSize:]
+	_acff := _ge.NewCFBDecrypter(_afg, _ebdd)
+	_acff.XORKeyStream(_dgb, _dgb)
+	return _dgb, nil
+}
+func (_gdb *meteredClient) getStatus() (meteredStatusResp, error) {
+	var _ddc meteredStatusResp
+	_ddg := _gdb._ede + "\u002fm\u0065t\u0065\u0072\u0065\u0064\u002f\u0073\u0074\u0061\u0074\u0075\u0073"
+	var _ace meteredStatusForm
+	_ggf, _abf := _ga.Marshal(_ace)
+	if _abf != nil {
+		return _ddc, _abf
+	}
+	_gga, _abf := _abed(_ggf)
+	if _abf != nil {
+		return _ddc, _abf
+	}
+	_fbg, _abf := _e.NewRequest("\u0050\u004f\u0053\u0054", _ddg, _gga)
+	if _abf != nil {
+		return _ddc, _abf
+	}
+	_fbg.Header.Add("\u0043\u006f\u006et\u0065\u006e\u0074\u002d\u0054\u0079\u0070\u0065", "\u0061\u0070p\u006c\u0069\u0063a\u0074\u0069\u006f\u006e\u002f\u006a\u0073\u006f\u006e")
+	_fbg.Header.Add("\u0043\u006fn\u0074\u0065\u006et\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067", "\u0067\u007a\u0069\u0070")
+	_fbg.Header.Add("\u0041c\u0063e\u0070\u0074\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067", "\u0067\u007a\u0069\u0070")
+	_fbg.Header.Add("\u0058-\u0041\u0050\u0049\u002d\u004b\u0045Y", _gdb._ceb)
+	_aaa, _abf := _gdb._bcc.Do(_fbg)
+	if _abf != nil {
+		return _ddc, _abf
+	}
+	defer _aaa.Body.Close()
+	if _aaa.StatusCode != 200 {
+		return _ddc, _ac.Errorf("\u0066\u0061i\u006c\u0065\u0064\u0020t\u006f\u0020c\u0068\u0065\u0063\u006b\u0069\u006e\u002c\u0020s\u0074\u0061\u0074\u0075\u0073\u0020\u0063\u006f\u0064\u0065\u0020\u0069s\u003a\u0020\u0025\u0064", _aaa.StatusCode)
+	}
+	_ae, _abf := _dad(_aaa)
+	if _abf != nil {
+		return _ddc, _abf
+	}
+	_abf = _ga.Unmarshal(_ae, &_ddc)
+	if _abf != nil {
+		return _ddc, _abf
+	}
+	return _ddc, nil
+}
+
+type reportState struct {
+	Instance      string         `json:"inst"`
+	Next          string         `json:"n"`
+	Docs          int64          `json:"d"`
+	NumErrors     int64          `json:"e"`
+	LimitDocs     bool           `json:"ld"`
+	RemainingDocs int64          `json:"rd"`
+	LastReported  _aa.Time       `json:"lr"`
+	LastWritten   _aa.Time       `json:"lw"`
+	Usage         map[string]int `json:"u"`
+	UsageLogs     []interface{}  `json:"ul,omitempty"`
+}
+
+func _gcbg() ([]string, []string, error) {
+	_dfa, _dce := _cc.Interfaces()
+	if _dce != nil {
+		return nil, nil, _dce
+	}
+	var _bdb []string
+	var _gfc []string
+	for _, _ccca := range _dfa {
+		if _ccca.Flags&_cc.FlagUp == 0 || _cd.Equal(_ccca.HardwareAddr, nil) {
+			continue
+		}
+		_adf, _abe := _ccca.Addrs()
+		if _abe != nil {
+			return nil, nil, _abe
+		}
+		_fcg := 0
+		for _, _gacd := range _adf {
+			var _dff _cc.IP
+			switch _baf := _gacd.(type) {
+			case *_cc.IPNet:
+				_dff = _baf.IP
+			case *_cc.IPAddr:
+				_dff = _baf.IP
+			}
+			if _dff.IsLoopback() {
+				continue
+			}
+			if _dff.To4() == nil {
+				continue
+			}
+			_gfc = append(_gfc, _dff.String())
+			_fcg++
+		}
+		_deaf := _ccca.HardwareAddr.String()
+		if _deaf != "" && _fcg > 0 {
+			_bdb = append(_bdb, _deaf)
+		}
+	}
+	return _bdb, _gfc, nil
+}
+func _cfa() *meteredClient {
+	_dg := meteredClient{_ede: "h\u0074\u0074\u0070\u0073\u003a\u002f/\u0063\u006c\u006f\u0075\u0064\u002e\u0075\u006e\u0069d\u006f\u0063\u002ei\u006f/\u0061\u0070\u0069", _bcc: &_e.Client{Timeout: 30 * _aa.Second}}
+	if _acc := _gf.Getenv("\u0055N\u0049\u0044\u004f\u0043_\u004c\u0049\u0043\u0045\u004eS\u0045_\u0053E\u0052\u0056\u0045\u0052\u005f\u0055\u0052L"); _gfd.HasPrefix(_acc, "\u0068\u0074\u0074\u0070") {
+		_dg._ede = _acc
+	}
+	return &_dg
+}
+
+type defaultStateHolder struct{}
+
+func (_cee *LicenseKey) TypeToString() string {
+	if _cee._efd {
+		return "M\u0065t\u0065\u0072\u0065\u0064\u0020\u0073\u0075\u0062s\u0063\u0072\u0069\u0070ti\u006f\u006e"
+	}
+	if _cee.Tier == LicenseTierUnlicensed {
+		return "\u0055\u006e\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0064"
+	}
+	if _cee.Tier == LicenseTierCommunity {
+		return "\u0041\u0047PL\u0076\u0033\u0020O\u0070\u0065\u006e\u0020Sou\u0072ce\u0020\u0043\u006f\u006d\u006d\u0075\u006eit\u0079\u0020\u004c\u0069\u0063\u0065\u006es\u0065"
+	}
+	if _cee.Tier == LicenseTierIndividual || _cee.Tier == "\u0069\u006e\u0064i\u0065" {
+		return "\u0043\u006f\u006dm\u0065\u0072\u0063\u0069a\u006c\u0020\u004c\u0069\u0063\u0065\u006es\u0065\u0020\u002d\u0020\u0049\u006e\u0064\u0069\u0076\u0069\u0064\u0075\u0061\u006c"
+	}
+	return "\u0043\u006fm\u006d\u0065\u0072\u0063\u0069\u0061\u006c\u0020\u004c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u002d\u0020\u0042\u0075\u0073\u0069ne\u0073\u0073"
+}
+
+var _efa stateLoader = defaultStateHolder{}
+
+type meteredClient struct {
+	_ede string
+	_ceb string
+	_bcc *_e.Client
+}
+
+func _bad(_feg string, _ccb string, _bdf string, _gde bool) error {
+	if _gfb == nil {
+		return _gg.New("\u006e\u006f\u0020\u006c\u0069\u0063\u0065\u006e\u0073e\u0020\u006b\u0065\u0079")
+	}
+	if !_gfb._efd || len(_gfb._edb) == 0 {
+		return nil
+	}
+	if len(_feg) == 0 && !_gde {
+		return _gg.New("\u0064\u006f\u0063\u004b\u0065\u0079\u0020\u006e\u006ft\u0020\u0073\u0065\u0074")
+	}
+	_gcc.Lock()
+	defer _gcc.Unlock()
+	if _gdc == nil {
+		_gdc = map[string]struct{}{}
+	}
+	if _ba == nil {
+		_ba = map[string]int{}
+	}
+	_aec := 0
+	if len(_feg) > 0 {
+		_, _fef := _gdc[_feg]
+		if !_fef {
+			_gdc[_feg] = struct{}{}
+			_aec++
+		}
+		if _gfb._bb {
+			_ccfd = append(_ccfd, map[string]interface{}{"\u0074\u0069\u006d\u0065": _aa.Now().String(), "\u0066\u0075\u006e\u0063": _ccb, "\u0072\u0065\u0066": _feg[:8], "\u0066\u0069\u006c\u0065": _bdf, "\u0063\u006f\u0073\u0074": _aec})
+			if _fef && _aec == 0 {
+				_de.Log.Info("\u0025\u0073\u0020\u0052\u0065\u0066\u003a\u0020\u0025\u0073\u0020\u007c\u0020\u0025\u0073 \u007c \u004e\u006f\u0020\u0063\u0072\u0065\u0064\u0069\u0074\u0020\u0075\u0073\u0065\u0064", _aa.Now().String(), _feg[:8], _ccb)
+			}
+		}
+	}
+	if _aec == 0 && !_gde {
+		return nil
+	}
+	_ba[_ccb]++
+	_cgaf := _aa.Now()
+	_bdd, _bag := _efa.loadState(_gfb._edb)
+	if _bag != nil {
+		_de.Log.Debug("\u0045R\u0052\u004f\u0052\u003a\u0020\u0025v", _bag)
+		return _bag
+	}
+	_bdd.UsageLogs = append(_bdd.UsageLogs, _ccfd...)
+	if _bdd.Usage == nil {
+		_bdd.Usage = map[string]int{}
+	}
+	for _fecg, _ffd := range _ba {
+		if _fecg != "" {
+			_bdd.Usage[_fecg] += _ffd
+		}
+	}
+	_ba = nil
+	const _gcd = 24 * _aa.Hour
+	const _fedg = 3 * 24 * _aa.Hour
+	if len(_bdd.Instance) == 0 || _cgaf.Sub(_bdd.LastReported) > _gcd || (_bdd.LimitDocs && _bdd.RemainingDocs <= _bdd.Docs+int64(_aec)) || _gde {
+		_feff, _eagf := _gf.Hostname()
+		if _eagf != nil {
+			return _eagf
+		}
+		_dbf := _bdd.Docs
+		_gca, _ggad, _eagf := _gcbg()
+		if _eagf != nil {
+			_de.Log.Debug("\u0055\u006e\u0061b\u006c\u0065\u0020\u0074o\u0020\u0067\u0065\u0074\u0020\u006c\u006fc\u0061\u006c\u0020\u0061\u0064\u0064\u0072\u0065\u0073\u0073\u003a\u0020\u0025\u0073", _eagf.Error())
+			_gca = append(_gca, "\u0069n\u0066\u006f\u0072\u006da\u0074\u0069\u006f\u006e\u0020n\u006ft\u0020a\u0076\u0061\u0069\u006c\u0061\u0062\u006ce")
+			_ggad = append(_ggad, "\u0069n\u0066\u006f\u0072\u006da\u0074\u0069\u006f\u006e\u0020n\u006ft\u0020a\u0076\u0061\u0069\u006c\u0061\u0062\u006ce")
+		} else {
+			_b.Strings(_ggad)
+			_b.Strings(_gca)
+			_ggc, _gfde := _gcb()
+			if _gfde != nil {
+				return _gfde
+			}
+			_abb := false
+			for _, _fgb := range _ggad {
+				if _fgb == _ggc.String() {
+					_abb = true
+				}
+			}
+			if !_abb {
+				_ggad = append(_ggad, _ggc.String())
+			}
+		}
+		_eecg := _cfa()
+		_eecg._ceb = _gfb._edb
+		_dbf += int64(_aec)
+		_bgdc := meteredUsageCheckinForm{Instance: _bdd.Instance, Next: _bdd.Next, UsageNumber: int(_dbf), NumFailed: _bdd.NumErrors, Hostname: _feff, LocalIP: _gfd.Join(_ggad, "\u002c\u0020"), MacAddress: _gfd.Join(_gca, "\u002c\u0020"), Package: "\u0075\u006e\u0069\u0070\u0064\u0066", PackageVersion: _de.Version, Usage: _bdd.Usage, IsPersistentCache: _gfb._faa, Timestamp: _cgaf.Unix()}
+		if len(_gca) == 0 {
+			_bgdc.MacAddress = "\u006e\u006f\u006e\u0065"
+		}
+		if _gfb._bb {
+			_bgdc.UsageLogs = _bdd.UsageLogs
+		}
+		_ade := int64(0)
+		_ddagg := _bdd.NumErrors
+		_ged := _cgaf
+		_agc := 0
+		_badd := _bdd.LimitDocs
+		_eecd, _eagf := _eecg.checkinUsage(_bgdc)
+		if _eagf != nil {
+			if _cgaf.Sub(_bdd.LastReported) > _fedg {
+				if !_eecd.Success {
+					return _gg.New(_eecd.Message)
+				}
+				return _gg.New("\u0074\u006f\u006f\u0020\u006c\u006f\u006e\u0067\u0020\u0073\u0069\u006e\u0063\u0065\u0020\u006c\u0061\u0073\u0074\u0020\u0073\u0075\u0063\u0063e\u0073\u0073\u0066\u0075\u006c \u0063\u0068e\u0063\u006b\u0069\u006e")
+			}
+			_ade = _dbf
+			_ddagg++
+			_ged = _bdd.LastReported
+		} else {
+			_badd = _eecd.LimitDocs
+			_agc = _eecd.RemainingDocs
+			_ddagg = 0
+		}
+		if len(_eecd.Instance) == 0 {
+			_eecd.Instance = _bgdc.Instance
+		}
+		if len(_eecd.Next) == 0 {
+			_eecd.Next = _bgdc.Next
+		}
+		_eagf = _efa.updateState(_eecg._ceb, _eecd.Instance, _eecd.Next, int(_ade), _badd, _agc, int(_ddagg), _ged, nil)
+		if _eagf != nil {
+			return _eagf
+		}
+		if !_eecd.Success {
+			return _ac.Errorf("\u0065r\u0072\u006f\u0072\u003a\u0020\u0025s", _eecd.Message)
+		}
+	} else {
+		_bag = _efa.updateState(_gfb._edb, _bdd.Instance, _bdd.Next, int(_bdd.Docs)+_aec, _bdd.LimitDocs, int(_bdd.RemainingDocs), int(_bdd.NumErrors), _bdd.LastReported, _bdd.Usage, _bdd.UsageLogs...)
+		if _bag != nil {
+			return _bag
+		}
+	}
+	if _gfb._bb && len(_feg) > 0 {
+		_geg := ""
+		if _bdf != "" {
+			_geg = _ac.Sprintf("\u0046i\u006c\u0065\u0020\u0025\u0073\u0020|", _bdf)
+		}
+		_de.Log.Info("%\u0073\u0020\u007c\u0020\u0025\u0073\u0020\u0052\u0065\u0066\u003a\u0020\u0025\u0073\u0020\u007c\u0020\u0025s\u0020\u007c\u0020\u0025\u0064\u0020\u0063\u0072\u0065\u0064it\u0028\u0073\u0029 \u0075s\u0065\u0064", _cgaf.String(), _geg, _feg[:8], _ccb, _aec)
+	}
+	return nil
+}
+func (_cec defaultStateHolder) updateState(_fab, _geb, _accf string, _ca int, _fec bool, _fcb int, _ecd int, _cff _aa.Time, _ccfe map[string]int, _eea ...interface{}) error {
+	_bbg, _dbe := _bca()
+	if _dbe != nil {
+		return _dbe
+	}
+	if len(_fab) < 20 {
+		return _gg.New("i\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006b\u0065\u0079")
+	}
+	_fdg := []byte(_fab)
+	_bgc := _cg.Sum512_256(_fdg[:20])
+	_fbf := _db.EncodeToString(_bgc[:])
+	_ffgf := _d.Join(_bbg, _fbf)
+	var _eda reportState
+	_eda.Docs = int64(_ca)
+	_eda.NumErrors = int64(_ecd)
+	_eda.LimitDocs = _fec
+	_eda.RemainingDocs = int64(_fcb)
+	_eda.LastWritten = _aa.Now().UTC()
+	_eda.LastReported = _cff
+	_eda.Instance = _geb
+	_eda.Next = _accf
+	_eda.Usage = _ccfe
+	_eda.UsageLogs = _eea
+	_ffa, _dbe := _ga.Marshal(_eda)
+	if _dbe != nil {
+		return _dbe
+	}
+	const _ceba = "\u0068\u00619\u004e\u004b\u0038]\u0052\u0062\u004c\u002a\u006d\u0034\u004c\u004b\u0057"
+	_ffa, _dbe = _fde([]byte(_ceba), _ffa)
+	if _dbe != nil {
+		return _dbe
+	}
+	_dbe = _gf.WriteFile(_ffgf, _ffa, 0600)
+	if _dbe != nil {
+		return _dbe
+	}
+	return nil
+}
+
+// func (_edc *LicenseKey) IsLicensed() bool { return _edc.Tier != LicenseTierUnlicensed || _edc._efd }
+func (_edc *LicenseKey) IsLicensed() bool { return true }
+
+const _dde = "U\u004eI\u0050\u0044\u0046\u005f\u0043\u0055\u0053\u0054O\u004d\u0045\u0052\u005fNA\u004d\u0045"
+
+func (_bfd defaultStateHolder) loadState(_beee string) (reportState, error) {
+	_edd, _ddag := _bca()
+	if _ddag != nil {
+		return reportState{}, _ddag
+	}
+	_ddag = _gf.MkdirAll(_edd, 0777)
+	if _ddag != nil {
+		return reportState{}, _ddag
+	}
+	if len(_beee) < 20 {
+		return reportState{}, _gg.New("i\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006b\u0065\u0079")
+	}
+	_cgd := []byte(_beee)
+	_aaae := _cg.Sum512_256(_cgd[:20])
+	_ebd := _db.EncodeToString(_aaae[:])
+	_geag := _d.Join(_edd, _ebd)
+	_aef, _ddag := _gf.ReadFile(_geag)
+	if _ddag != nil {
+		if _gf.IsNotExist(_ddag) {
+			return reportState{}, nil
+		}
+		_de.Log.Debug("\u0045R\u0052\u004f\u0052\u003a\u0020\u0025v", _ddag)
+		return reportState{}, _gg.New("\u0069\u006e\u0076a\u006c\u0069\u0064\u0020\u0064\u0061\u0074\u0061")
+	}
+	const _eecb = "\u0068\u00619\u004e\u004b\u0038]\u0052\u0062\u004c\u002a\u006d\u0034\u004c\u004b\u0057"
+	_aef, _ddag = _cfd([]byte(_eecb), _aef)
+	if _ddag != nil {
+		return reportState{}, _ddag
+	}
+	var _agab reportState
+	_ddag = _ga.Unmarshal(_aef, &_agab)
+	if _ddag != nil {
+		_de.Log.Debug("\u0045\u0052\u0052OR\u003a\u0020\u0049\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u0064\u0061\u0074\u0061\u003a\u0020\u0025\u0076", _ddag)
+		return reportState{}, _gg.New("\u0069\u006e\u0076a\u006c\u0069\u0064\u0020\u0064\u0061\u0074\u0061")
+	}
+	return _agab, nil
+}
+func Track(docKey string, useKey string, docName string) error {
+	return _bad(docKey, useKey, docName, !_gfb._faa)
+}
+
+const _bfg = "\u000a\u002d\u002d\u002d\u002d\u002d\u0042\u0045\u0047\u0049\u004e \u0050\u0055\u0042\u004c\u0049\u0043\u0020\u004b\u0045Y\u002d\u002d\u002d\u002d\u002d\u000a\u004d\u0049I\u0042\u0049\u006a\u0041NB\u0067\u006b\u0071\u0068\u006b\u0069G\u0039\u0077\u0030\u0042\u0041\u0051\u0045\u0046A\u0041\u004f\u0043\u0041\u0051\u0038\u0041\u004d\u0049\u0049\u0042\u0043\u0067\u004b\u0043\u0041\u0051\u0045A\u006dF\u0055\u0069\u0079\u0064\u0037\u0062\u0035\u0058\u006a\u0070\u006b\u0050\u0035\u0052\u0061\u0070\u0034\u0077\u000a\u0044\u0063\u0031d\u0079\u007a\u0049\u0051\u0034\u004c\u0065\u006b\u0078\u0072\u0076\u0079\u0074\u006e\u0045\u004d\u0070\u004e\u0055\u0062\u006f\u0036i\u0041\u0037\u0034\u0056\u0038\u0072\u0075\u005a\u004f\u0076\u0072\u0053\u0063\u0073\u0066\u0032\u0051\u0065\u004e9\u002f\u0071r\u0055\u0047\u0038\u0071\u0045\u0062\u0055\u0057\u0064\u006f\u0045\u0059\u0071+\u000a\u006f\u0074\u0046\u004e\u0041\u0046N\u0078\u006c\u0047\u0062\u0078\u0062\u0044\u0048\u0063\u0064\u0047\u0056\u0061\u004d\u0030\u004f\u0058\u0064\u0058g\u0044y\u004c5\u0061\u0049\u0045\u0061\u0067\u004c\u0030\u0063\u0035\u0070\u0077\u006a\u0049\u0064\u0050G\u0049\u006e\u0034\u0036\u0066\u0037\u0038\u0065\u004d\u004a\u002b\u004a\u006b\u0064\u0063\u0070\u0044\n\u0044\u004a\u0061\u0071\u0059\u0058d\u0072\u007a5\u004b\u0065\u0073\u0068\u006aS\u0069\u0049\u0061\u0061\u0037\u006d\u0065\u006e\u0042\u0049\u0041\u0058\u0053\u0034\u0055\u0046\u0078N\u0066H\u0068\u004e\u0030\u0048\u0043\u0059\u005a\u0059\u0071\u0051\u0047\u0037\u0062K+\u0073\u0035\u0072R\u0048\u006f\u006e\u0079\u0064\u004eW\u0045\u0047\u000a\u0048\u0038M\u0079\u0076\u00722\u0070\u0079\u0061\u0032K\u0072\u004d\u0075m\u0066\u006d\u0041\u0078\u0055\u0042\u0036\u0066\u0065\u006e\u0043\u002f4\u004f\u0030\u0057\u00728\u0067\u0066\u0050\u004f\u0055\u0038R\u0069\u0074\u006d\u0062\u0044\u0076\u0051\u0050\u0049\u0052\u0058\u004fL\u0034\u0076\u0054B\u0072\u0042\u0064\u0062a\u0041\u000a9\u006e\u0077\u004e\u0050\u002b\u0069\u002f\u002f\u0032\u0030\u004d\u00542\u0062\u0078\u006d\u0065\u0057\u0042\u002b\u0067\u0070\u0063\u0045\u0068G\u0070\u0058\u005a7\u0033\u0033\u0061\u007a\u0051\u0078\u0072\u0043\u0033\u004a\u0034\u0076\u0033C\u005a\u006d\u0045\u004eS\u0074\u0044\u004b\u002f\u004b\u0044\u0053\u0050\u004b\u0055\u0047\u0066\u00756\u000a\u0066\u0077I\u0044\u0041\u0051\u0041\u0042\u000a\u002d\u002d\u002d\u002d\u002dE\u004e\u0044\u0020\u0050\u0055\u0042\u004c\u0049\u0043 \u004b\u0045Y\u002d\u002d\u002d\u002d\u002d\n"
+
+func _bca() (string, error) {
+	_beff := _gfd.TrimSpace(_gf.Getenv(_adg))
+	if _beff == "" {
+		_de.Log.Debug("\u0024\u0025\u0073\u0020e\u006e\u0076\u0069\u0072\u006f\u006e\u006d\u0065\u006e\u0074\u0020\u0076\u0061\u0072\u0069\u0061\u0062l\u0065\u0020\u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064\u002e\u0020\u0057\u0069\u006c\u006c\u0020\u0075\u0073\u0065\u0020\u0068\u006f\u006d\u0065\u0020\u0064\u0069\u0072\u0065\u0063\u0074\u006f\u0072\u0079\u0020\u0074\u006f\u0020s\u0074\u006f\u0072\u0065\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020in\u0066o\u0072\u006d\u0061\u0074\u0069\u006f\u006e\u002e", _adg)
+		_fdf := _abee()
+		if len(_fdf) == 0 {
+			return "", _ac.Errorf("r\u0065\u0071\u0075\u0069\u0072\u0065\u0064\u0020\u0024\u0025\u0073\u0020\u0065\u006e\u0076\u0069\u0072\u006f\u006e\u006d\u0065\u006e\u0074\u0020\u0076\u0061r\u0069a\u0062\u006c\u0065\u0020o\u0072\u0020h\u006f\u006d\u0065\u0020\u0064\u0069\u0072\u0065\u0063\u0074\u006f\u0072\u0079\u0020\u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064", _adg)
+		}
+		_beff = _d.Join(_fdf, "\u002eu\u006e\u0069\u0064\u006f\u0063")
+	}
+	_afcg := _gf.MkdirAll(_beff, 0777)
+	if _afcg != nil {
+		return "", _afcg
+	}
+	return _beff, nil
+}
+func GetMeteredState() (MeteredStatus, error) {
+	if _gfb == nil {
+		return MeteredStatus{}, _gg.New("\u006c\u0069\u0063\u0065ns\u0065\u0020\u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0073\u0065\u0074")
+	}
+	if !_gfb._efd || len(_gfb._edb) == 0 {
+		return MeteredStatus{}, _gg.New("\u0061p\u0069 \u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0073\u0065\u0074")
+	}
+	_cdgc, _bef := _efa.loadState(_gfb._edb)
+	if _bef != nil {
+		_de.Log.Debug("\u0045R\u0052\u004f\u0052\u003a\u0020\u0025v", _bef)
+		return MeteredStatus{}, _bef
+	}
+	if _cdgc.Docs > 0 {
+		_ccd := _bad("", "", "", true)
+		if _ccd != nil {
+			return MeteredStatus{}, _ccd
+		}
+	}
+	_gcc.Lock()
+	defer _gcc.Unlock()
+	_eg := _cfa()
+	_eg._ceb = _gfb._edb
+	_fcf, _bef := _eg.getStatus()
+	if _bef != nil {
+		return MeteredStatus{}, _bef
+	}
+	if !_fcf.Valid {
+		return MeteredStatus{}, _gg.New("\u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0076\u0061\u006c\u0069\u0064")
+	}
+	_fae := MeteredStatus{OK: true, Credits: _fcf.OrgCredits, Used: _fcf.OrgUsed}
+	return _fae, nil
+}
+
+type LicenseKey struct {
+	LicenseId    string    `json:"license_id"`
+	CustomerId   string    `json:"customer_id"`
+	CustomerName string    `json:"customer_name"`
+	Tier         string    `json:"tier"`
+	CreatedAt    _aa.Time  `json:"-"`
+	CreatedAtInt int64     `json:"created_at"`
+	ExpiresAt    *_aa.Time `json:"-"`
+	ExpiresAtInt int64     `json:"expires_at"`
+	CreatedBy    string    `json:"created_by"`
+	CreatorName  string    `json:"creator_name"`
+	CreatorEmail string    `json:"creator_email"`
+	UniPDF       bool      `json:"unipdf"`
+	UniOffice    bool      `json:"unioffice"`
+	UniHTML      bool      `json:"unihtml"`
+	Trial        bool      `json:"trial"`
+	_efd         bool
+	_edb         string
+	_faa         bool
+	_bb          bool
+}
+
+var _bee = _aa.Date(2020, 1, 1, 0, 0, 0, 0, _aa.UTC)
+
+type meteredStatusResp struct {
+	Valid        bool  `json:"valid"`
+	OrgCredits   int64 `json:"org_credits"`
+	OrgUsed      int64 `json:"org_used"`
+	OrgRemaining int64 `json:"org_remaining"`
+}
+type meteredUsageCheckinForm struct {
+	Instance          string         `json:"inst"`
+	Next              string         `json:"next"`
+	UsageNumber       int            `json:"usage_number"`
+	NumFailed         int64          `json:"num_failed"`
+	Hostname          string         `json:"hostname"`
+	LocalIP           string         `json:"local_ip"`
+	MacAddress        string         `json:"mac_address"`
+	Package           string         `json:"package"`
+	PackageVersion    string         `json:"package_version"`
+	Usage             map[string]int `json:"u"`
+	IsPersistentCache bool           `json:"is_persistent_cache"`
+	Timestamp         int64          `json:"timestamp"`
+	UsageLogs         []interface{}  `json:"ul,omitempty"`
+}
+
+func SetLicenseKey(content string, customerName string) error {
+	_ccab, _bagd := _bce(content)
+	if _bagd != nil {
+		_de.Log.Error("\u004c\u0069c\u0065\u006e\u0073\u0065\u0020\u0063\u006f\u0064\u0065\u0020\u0064\u0065\u0063\u006f\u0064\u0065\u0020\u0065\u0072\u0072\u006f\u0072: \u0025\u0076", _bagd)
+		return _bagd
+	}
+	if !_gfd.EqualFold(_ccab.CustomerName, customerName) {
+		_de.Log.Error("L\u0069ce\u006es\u0065 \u0063\u006f\u0064\u0065\u0020i\u0073\u0073\u0075e\u0020\u002d\u0020\u0043\u0075s\u0074\u006f\u006de\u0072\u0020\u006e\u0061\u006d\u0065\u0020\u006d\u0069\u0073\u006da\u0074\u0063\u0068, e\u0078\u0070\u0065\u0063\u0074\u0065d\u0020\u0027\u0025\u0073\u0027\u002c\u0020\u0062\u0075\u0074\u0020\u0067o\u0074 \u0027\u0025\u0073\u0027", _ccab.CustomerName, customerName)
+		return _ac.Errorf("\u0063\u0075\u0073\u0074\u006fm\u0065\u0072\u0020\u006e\u0061\u006d\u0065\u0020\u006d\u0069\u0073\u006d\u0061t\u0063\u0068\u002c\u0020\u0065\u0078\u0070\u0065\u0063\u0074\u0065\u0064\u0020\u0027\u0025\u0073\u0027\u002c\u0020\u0062\u0075\u0074\u0020\u0067\u006f\u0074\u0020\u0027\u0025\u0073'", _ccab.CustomerName, customerName)
+	}
+	_bagd = _ccab.Validate()
+	if _bagd != nil {
+		_de.Log.Error("\u004c\u0069\u0063\u0065\u006e\u0073e\u0020\u0063\u006f\u0064\u0065\u0020\u0076\u0061\u006c\u0069\u0064\u0061\u0074i\u006f\u006e\u0020\u0065\u0072\u0072\u006fr\u003a\u0020\u0025\u0076", _bagd)
+		return _bagd
+	}
+	_gfb = &_ccab
+	return nil
+}
+
+var _gfdc = _aa.Date(2019, 6, 6, 0, 0, 0, 0, _aa.UTC)
+
+func _beeb(_cgg *_e.Response) (_g.ReadCloser, error) {
+	var _bda error
+	var _fdfg _g.ReadCloser
+	switch _gfd.ToLower(_cgg.Header.Get("\u0043\u006fn\u0074\u0065\u006et\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067")) {
+	case "\u0067\u007a\u0069\u0070":
+		_fdfg, _bda = _f.NewReader(_cgg.Body)
+		if _bda != nil {
+			return _fdfg, _bda
+		}
+		defer _fdfg.Close()
+	default:
+		_fdfg = _cgg.Body
+	}
+	return _fdfg, nil
+}
+
+var _gcc = &_gb.Mutex{}
+
+func _aae(_bf string, _be string, _da string) (string, error) {
+	_cca := _gfd.Index(_da, _bf)
+	if _cca == -1 {
+		return "", _ac.Errorf("\u0068\u0065a\u0064\u0065\u0072 \u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064")
+	}
+	_eag := _gfd.Index(_da, _be)
+	if _eag == -1 {
+		return "", _ac.Errorf("\u0066\u006fo\u0074\u0065\u0072 \u006e\u006f\u0074\u0020\u0066\u006f\u0075\u006e\u0064")
+	}
+	_dd := _cca + len(_bf) + 1
+	return _da[_dd : _eag-1], nil
+}
+func (_dc *LicenseKey) Validate() error {
+	if _dc._efd {
+		return nil
+	}
+	if len(_dc.LicenseId) < 10 {
+		return _ac.Errorf("i\u006e\u0076\u0061\u006c\u0069\u0064 \u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020L\u0069\u0063\u0065n\u0073e\u0020\u0049\u0064")
+	}
+	if len(_dc.CustomerId) < 10 {
+		return _ac.Errorf("\u0069\u006e\u0076\u0061l\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065:\u0020C\u0075\u0073\u0074\u006f\u006d\u0065\u0072 \u0049\u0064")
+	}
+	if len(_dc.CustomerName) < 1 {
+		return _ac.Errorf("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069c\u0065\u006e\u0073\u0065\u003a\u0020\u0043u\u0073\u0074\u006f\u006d\u0065\u0072\u0020\u004e\u0061\u006d\u0065")
+	}
+	if _fac.After(_dc.CreatedAt) {
+		return _ac.Errorf("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0043\u0072\u0065\u0061\u0074\u0065\u0064 \u0041\u0074\u0020\u0069\u0073 \u0069\u006ev\u0061\u006c\u0069\u0064")
+	}
+	if _dc.ExpiresAt == nil {
+		_af := _dc.CreatedAt.AddDate(1, 0, 0)
+		if _bee.After(_af) {
+			_af = _bee
+		}
+		_dc.ExpiresAt = &_af
+	}
+	if _dc.CreatedAt.After(*_dc.ExpiresAt) {
+		return _ac.Errorf("i\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0043\u0072\u0065\u0061\u0074\u0065\u0064\u0020\u0041\u0074 \u0063a\u006e\u006e\u006f\u0074 \u0062\u0065 \u0047\u0072\u0065\u0061\u0074\u0065\u0072\u0020\u0074\u0068\u0061\u006e\u0020\u0045\u0078\u0070\u0069\u0072\u0065\u0073\u0020\u0041\u0074")
+	}
+	if _dc.isExpired() {
+		_ada := "\u0054\u0068\u0065\u0020\u006c\u0069c\u0065\u006e\u0073\u0065\u0020\u0068\u0061\u0073\u0020\u0061\u006c\u0072\u0065a\u0064\u0079\u0020\u0065\u0078\u0070\u0069r\u0065\u0064\u002e\u000a" + "\u0059o\u0075\u0020\u006d\u0061y\u0020n\u0065\u0065\u0064\u0020\u0074\u006f\u0020\u0075\u0070d\u0061\u0074\u0065\u0020\u0074\u0068\u0065\u0020l\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u006b\u0065\u0079\u0020t\u006f\u0020\u0074\u0068\u0065\u0020\u006e\u0065\u0077\u0065s\u0074\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u006b\u0065\u0079\u0020\u0066\u006f\u0072\u0020\u0079o\u0075\u0072\u0020\u006f\u0072\u0067\u0061\u006e\u0069\u007a\u0061\u0074i\u006fn\u002e\u000a" + "\u0054o\u0020\u0066\u0069\u006ed y\u006f\u0075\u0072\u0020n\u0065\u0077\u0065\u0073\u0074\u0020\u006c\u0069\u0063\u0065n\u0073\u0065\u0020\u006b\u0065\u0079\u002c\u0020\u0067\u006f\u0020\u0074\u006f\u0020\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063l\u006f\u0075\u0064\u002e\u0075\u006e\u0069\u0064oc\u002e\u0069\u006f \u0061\u006e\u0064\u0020\u0067o\u0020t\u006f\u0020\u0074\u0068\u0065\u0020\u006c\u0069\u0063e\u006e\u0073\u0065\u0020\u006d\u0065\u006e\u0075\u002e"
+		return _ac.Errorf("\u0069\u006e\u0076\u0061li\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0025\u0073", _ada)
+	}
+	if len(_dc.CreatorName) < 1 {
+		return _ac.Errorf("\u0069\u006ev\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u003a\u0020\u0043\u0072\u0065\u0061\u0074\u006f\u0072\u0020na\u006d\u0065")
+	}
+	if len(_dc.CreatorEmail) < 1 {
+		return _ac.Errorf("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069c\u0065\u006e\u0073\u0065\u003a\u0020\u0043r\u0065\u0061\u0074\u006f\u0072\u0020\u0065\u006d\u0061\u0069\u006c")
+	}
+	if _dc.CreatedAt.After(_gfdc) {
+		if !_dc.UniPDF {
+			return _ac.Errorf("\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065:\u0020\u0054\u0068\u0069\u0073\u0020\u0055\u006e\u0069\u0044\u006f\u0063\u0020k\u0065\u0079\u0020\u0069\u0073\u0020\u0069\u006e\u0076\u0061\u006c\u0069d \u0066\u006f\u0072\u0020\u0055\u006e\u0069\u0050\u0044\u0046")
+		}
+	}
+	return nil
+}
+func SetMeteredKeyPersistentCache(val bool) { _gfb._faa = val }
+func (_ccf *LicenseKey) getExpiryDateToCompare() _aa.Time {
+	if _ccf.Trial {
+		return _aa.Now().UTC()
+	}
+	return _de.ReleasedAt
+}
+func (_bfa *meteredClient) checkinUsage(_ebe meteredUsageCheckinForm) (meteredUsageCheckinResp, error) {
+	_ebe.Package = "\u0075\u006e\u0069\u0070\u0064\u0066"
+	_ebe.PackageVersion = _de.Version
+	var _cebc meteredUsageCheckinResp
+	_adaf := _bfa._ede + "\u002f\u006d\u0065\u0074er\u0065\u0064\u002f\u0075\u0073\u0061\u0067\u0065\u005f\u0063\u0068\u0065\u0063\u006bi\u006e"
+	_dda, _bgd := _ga.Marshal(_ebe)
+	if _bgd != nil {
+		return _cebc, _bgd
+	}
+	_dbd, _bgd := _abed(_dda)
+	if _bgd != nil {
+		return _cebc, _bgd
+	}
+	_dga, _bgd := _e.NewRequest("\u0050\u004f\u0053\u0054", _adaf, _dbd)
+	if _bgd != nil {
+		return _cebc, _bgd
+	}
+	_dga.Header.Add("\u0043\u006f\u006et\u0065\u006e\u0074\u002d\u0054\u0079\u0070\u0065", "\u0061\u0070p\u006c\u0069\u0063a\u0074\u0069\u006f\u006e\u002f\u006a\u0073\u006f\u006e")
+	_dga.Header.Add("\u0043\u006fn\u0074\u0065\u006et\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067", "\u0067\u007a\u0069\u0070")
+	_dga.Header.Add("\u0041c\u0063e\u0070\u0074\u002d\u0045\u006e\u0063\u006f\u0064\u0069\u006e\u0067", "\u0067\u007a\u0069\u0070")
+	_dga.Header.Add("\u0058-\u0041\u0050\u0049\u002d\u004b\u0045Y", _bfa._ceb)
+	_bd, _bgd := _bfa._bcc.Do(_dga)
+	if _bgd != nil {
+		return _cebc, _bgd
+	}
+	defer _bd.Body.Close()
+	if _bd.StatusCode != 200 {
+		_fd, _gbfe := _dad(_bd)
+		if _gbfe != nil {
+			return _cebc, _gbfe
+		}
+		_gbfe = _ga.Unmarshal(_fd, &_cebc)
+		if _gbfe != nil {
+			return _cebc, _gbfe
+		}
+		return _cebc, _ac.Errorf("\u0066\u0061i\u006c\u0065\u0064\u0020t\u006f\u0020c\u0068\u0065\u0063\u006b\u0069\u006e\u002c\u0020s\u0074\u0061\u0074\u0075\u0073\u0020\u0063\u006f\u0064\u0065\u0020\u0069s\u003a\u0020\u0025\u0064", _bd.StatusCode)
+	}
+	_df := _bd.Header.Get("\u0058\u002d\u0055\u0043\u002d\u0053\u0069\u0067\u006ea\u0074\u0075\u0072\u0065")
+	_gbd := _cac(_ebe.MacAddress, string(_dda))
+	if _gbd != _df {
+		_de.Log.Error("I\u006e\u0076\u0061l\u0069\u0064\u0020\u0072\u0065\u0073\u0070\u006f\u006e\u0073\u0065\u0020\u0073\u0069\u0067\u006e\u0061\u0074\u0075\u0072\u0065\u002c\u0020\u0073\u0065t\u0020\u0074\u0068e\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u0073\u0065\u0072\u0076e\u0072\u0020\u0074\u006f \u0068\u0074\u0074\u0070s\u003a\u002f\u002f\u0063\u006c\u006f\u0075\u0064\u002e\u0075\u006e\u0069\u0064\u006f\u0063\u002e\u0069o\u002f\u0061\u0070\u0069")
+		return _cebc, _gg.New("\u0066\u0061\u0069l\u0065\u0064\u0020\u0074\u006f\u0020\u0063\u0068\u0065\u0063\u006b\u0069\u006e\u002c\u0020\u0069\u006e\u0076\u0061\u006c\u0069\u0064\u0020\u0073\u0065\u0072\u0076\u0065\u0072 \u0072\u0065\u0073\u0070\u006f\u006e\u0073\u0065")
+	}
+	_aaab, _bgd := _dad(_bd)
+	if _bgd != nil {
+		return _cebc, _bgd
+	}
+	_bgd = _ga.Unmarshal(_aaab, &_cebc)
+	if _bgd != nil {
+		return _cebc, _bgd
+	}
+	return _cebc, nil
+}
+
+const _fcbf = "\u0055\u004e\u0049\u0050DF\u005f\u004c\u0049\u0043\u0045\u004e\u0053\u0045\u005f\u0050\u0041\u0054\u0048"
+
+func TrackUse(useKey string) {
+	if _gfb == nil {
+		return
+	}
+	if !_gfb._efd || len(_gfb._edb) == 0 {
+		return
+	}
+	if len(useKey) == 0 {
+		return
+	}
+	_gcc.Lock()
+	defer _gcc.Unlock()
+	if _ba == nil {
+		_ba = map[string]int{}
+	}
+	_ba[useKey]++
+}
+func _abed(_cebf []byte) (_g.Reader, error) {
+	_bbgd := new(_cd.Buffer)
+	_acfa := _f.NewWriter(_bbgd)
+	_acfa.Write(_cebf)
+	_bfe := _acfa.Close()
+	if _bfe != nil {
+		return nil, _bfe
+	}
+	return _bbgd, nil
+}
+func (_faf *LicenseKey) isExpired() bool { return _faf.getExpiryDateToCompare().After(*_faf.ExpiresAt) }
+
+type MeteredStatus struct {
+	OK      bool
+	Credits int64
+	Used    int64
+}
+
+func _gcb() (_cc.IP, error) {
+	_dbfd, _ccc := _cc.Dial("\u0075\u0064\u0070", "\u0038\u002e\u0038\u002e\u0038\u002e\u0038\u003a\u0038\u0030")
+	if _ccc != nil {
+		return nil, _ccc
+	}
+	defer _dbfd.Close()
+	_aebg := _dbfd.LocalAddr().(*_cc.UDPAddr)
+	return _aebg.IP, nil
+}
+
+const (
+	_cfef = "\u002d\u002d\u002d--\u0042\u0045\u0047\u0049\u004e\u0020\u0055\u004e\u0049D\u004fC\u0020L\u0049C\u0045\u004e\u0053\u0045\u0020\u004b\u0045\u0059\u002d\u002d\u002d\u002d\u002d"
+	_ee   = "\u002d\u002d\u002d\u002d\u002d\u0045\u004e\u0044\u0020\u0055\u004e\u0049\u0044\u004f\u0043 \u004cI\u0043\u0045\u004e\u0053\u0045\u0020\u004b\u0045\u0059\u002d\u002d\u002d\u002d\u002d"
+)
+
+func SetMeteredKey(apiKey string) error {
+	if len(apiKey) == 0 {
+		_de.Log.Error("\u004d\u0065\u0074\u0065\u0072e\u0064\u0020\u004c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u0041\u0050\u0049 \u004b\u0065\u0079\u0020\u006d\u0075\u0073\u0074\u0020\u006e\u006f\u0074\u0020\u0062\u0065\u0020\u0065\u006d\u0070\u0074\u0079")
+		_de.Log.Error("\u002d\u0020\u0047\u0072\u0061\u0062\u0020\u006f\u006e\u0065\u0020\u0069\u006e\u0020\u0074h\u0065\u0020\u0046\u0072\u0065\u0065\u0020\u0054\u0069\u0065\u0072\u0020\u0061t\u0020\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063\u006c\u006fud\u002e\u0075\u006e\u0069\u0064\u006f\u0063\u002e\u0069\u006f")
+		return _ac.Errorf("\u006de\u0074\u0065\u0072e\u0064\u0020\u006ci\u0063en\u0073\u0065\u0020\u0061\u0070\u0069\u0020k\u0065\u0079\u0020\u006d\u0075\u0073\u0074\u0020\u006e\u006f\u0074\u0020\u0062\u0065\u0020\u0065\u006d\u0070\u0074\u0079\u003a\u0020\u0063\u0072\u0065\u0061\u0074\u0065 o\u006ee\u0020\u0061\u0074\u0020\u0068\u0074t\u0070\u0073\u003a\u002f\u002fc\u006c\u006f\u0075\u0064\u002e\u0075\u006e\u0069\u0064\u006f\u0063.\u0069\u006f")
+	}
+	if _gfb != nil && (_gfb._efd || _gfb.Tier != LicenseTierUnlicensed) {
+		_de.Log.Error("\u0045\u0052\u0052\u004f\u0052:\u0020\u0043\u0061\u006e\u006eo\u0074 \u0073\u0065\u0074\u0020\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0020\u006b\u0065\u0079\u0020\u0074\u0077\u0069c\u0065\u0020\u002d\u0020\u0053\u0068\u006f\u0075\u006c\u0064\u0020\u006a\u0075\u0073\u0074\u0020\u0069\u006e\u0069\u0074\u0069\u0061\u006c\u0069z\u0065\u0020\u006f\u006e\u0063\u0065")
+		return _gg.New("\u006c\u0069\u0063en\u0073\u0065\u0020\u006b\u0065\u0079\u0020\u0061\u006c\u0072\u0065\u0061\u0064\u0079\u0020\u0073\u0065\u0074")
+	}
+	_bcb := _cfa()
+	_bcb._ceb = apiKey
+	_fc, _aeb := _bcb.getStatus()
+	if _aeb != nil {
+		return _aeb
+	}
+	if !_fc.Valid {
+		return _gg.New("\u006b\u0065\u0079\u0020\u006e\u006f\u0074\u0020\u0076\u0061\u006c\u0069\u0064")
+	}
+	_dfe := &LicenseKey{_efd: true, _edb: apiKey, _faa: true}
+	_gfb = _dfe
+	return nil
+}
+func SetMeteredKeyUsageLogVerboseMode(val bool) { _gfb._bb = val }
+
+type stateLoader interface {
+	loadState(_ceg string) (reportState, error)
+	updateState(_fg, _ddgg, _fbgf string, _ggd int, _bgb bool, _aaf int, _afc int, _ege _aa.Time, _gabg map[string]int, _daf ...interface{}) error
+}
+
+var _ccfd []interface{}
+
+type meteredUsageCheckinResp struct {
+	Instance      string `json:"inst"`
+	Next          string `json:"next"`
+	Success       bool   `json:"success"`
+	Message       string `json:"message"`
+	RemainingDocs int    `json:"rd"`
+	LimitDocs     bool   `json:"ld"`
+}
+
+func _abee() string {
+	_gdeg := _gf.Getenv("\u0048\u004f\u004d\u0045")
+	if len(_gdeg) == 0 {
+		_gdeg, _ = _gf.UserHomeDir()
+	}
+	return _gdeg
+}
+
+const (
+	LicenseTierUnlicensed = "\u0075\u006e\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u0064"
+	LicenseTierCommunity  = "\u0063o\u006d\u006d\u0075\u006e\u0069\u0074y"
+	LicenseTierIndividual = "\u0069\u006e\u0064\u0069\u0076\u0069\u0064\u0075\u0061\u006c"
+	LicenseTierBusiness   = "\u0062\u0075\u0073\u0069\u006e\u0065\u0073\u0073"
+)
+
+func GetLicenseKey() *LicenseKey {
+	if _gfb == nil {
+		return nil
+	}
+	_dab := *_gfb
+	return &_dab
+}
+func init() {
+	_abeg := _gf.Getenv(_fcbf)
+	_cde := _gf.Getenv(_dde)
+	if len(_abeg) == 0 || len(_cde) == 0 {
+		return
+	}
+	_dcf, _eeb := _gf.ReadFile(_abeg)
+	if _eeb != nil {
+		_de.Log.Error("\u0055\u006eab\u006c\u0065\u0020t\u006f\u0020\u0072\u0065ad \u006cic\u0065\u006e\u0073\u0065\u0020\u0063\u006fde\u0020\u0066\u0069\u006c\u0065\u003a\u0020%\u0076", _eeb)
+		return
+	}
+	_eeb = SetLicenseKey(string(_dcf), _cde)
+	if _eeb != nil {
+		_de.Log.Error("\u0055\u006e\u0061b\u006c\u0065\u0020\u0074o\u0020\u006c\u006f\u0061\u0064\u0020\u006ci\u0063\u0065\u006e\u0073\u0065\u0020\u0063\u006f\u0064\u0065\u003a\u0020\u0025\u0076", _eeb)
+		return
+	}
+}
+func _bce(_gab string) (LicenseKey, error) {
+	var _eec LicenseKey
+	_eb, _efc := _aae(_cfef, _ee, _gab)
+	if _efc != nil {
+		return _eec, _efc
+	}
+	_gae, _efc := _aab(_bfg, _eb)
+	if _efc != nil {
+		return _eec, _efc
+	}
+	_efc = _ga.Unmarshal(_gae, &_eec)
+	if _efc != nil {
+		return _eec, _efc
+	}
+	_eec.CreatedAt = _aa.Unix(_eec.CreatedAtInt, 0)
+	if _eec.ExpiresAtInt > 0 {
+		_bga := _aa.Unix(_eec.ExpiresAtInt, 0)
+		_eec.ExpiresAt = &_bga
+	}
+	return _eec, nil
+}
+func _dad(_ebdc *_e.Response) ([]byte, error) {
+	var _eed []byte
+	_dfb, _ffac := _beeb(_ebdc)
+	if _ffac != nil {
+		return _eed, _ffac
+	}
+	return _g.ReadAll(_dfb)
+}
+
+var _fac = _aa.Date(2010, 1, 1, 0, 0, 0, 0, _aa.UTC)
+
+func _cac(_efad, _dbg string) string {
+	_ebg := []byte(_efad)
+	_bdbe := _fa.New(_ce.New, _ebg)
+	_bdbe.Write([]byte(_dbg))
+	return _ag.StdEncoding.EncodeToString(_bdbe.Sum(nil))
+}
+func _ff(_cga string, _ffc []byte) (string, error) {
+	_gbf, _ := _cf.Decode([]byte(_cga))
+	if _gbf == nil {
+		return "", _ac.Errorf("\u0050\u0072\u0069\u0076\u004b\u0065\u0079\u0020\u0066a\u0069\u006c\u0065\u0064")
+	}
+	_ab, _eee := _ea.ParsePKCS1PrivateKey(_gbf.Bytes)
+	if _eee != nil {
+		return "", _eee
+	}
+	_fe := _cg.New()
+	_fe.Write(_ffc)
+	_bg := _fe.Sum(nil)
+	_gac, _eee := _gfa.SignPKCS1v15(_cfe.Reader, _ab, _a.SHA512, _bg)
+	if _eee != nil {
+		return "", _eee
+	}
+	_gea := _ag.StdEncoding.EncodeToString(_ffc)
+	_gea += "\u000a\u002b\u000a"
+	_gea += _ag.StdEncoding.EncodeToString(_gac)
+	return _gea, nil
+}
+
+const _adg = "\u0055N\u0049D\u004f\u0043\u005f\u004c\u0049C\u0045\u004eS\u0045\u005f\u0044\u0049\u0052"
+
+func _aab(_geab string, _ad string) ([]byte, error) {
+	var (
+		_gbg int
+		_ffg string
+	)
+	for _, _ffg = range []string{"\u000a\u002b\u000a", "\u000d\u000a\u002b\r\u000a", "\u0020\u002b\u0020"} {
+		if _gbg = _gfd.Index(_ad, _ffg); _gbg != -1 {
+			break
+		}
+	}
+	if _gbg == -1 {
+		return nil, _ac.Errorf("\u0069\u006e\u0076al\u0069\u0064\u0020\u0069\u006e\u0070\u0075\u0074\u002c \u0073i\u0067n\u0061t\u0075\u0072\u0065\u0020\u0073\u0065\u0070\u0061\u0072\u0061\u0074\u006f\u0072")
+	}
+	_dea := _ad[:_gbg]
+	_bc := _gbg + len(_ffg)
+	_fb := _ad[_bc:]
+	if _dea == "" || _fb == "" {
+		return nil, _ac.Errorf("\u0069n\u0076\u0061l\u0069\u0064\u0020\u0069n\u0070\u0075\u0074,\u0020\u006d\u0069\u0073\u0073\u0069\u006e\u0067\u0020or\u0069\u0067\u0069n\u0061\u006c \u006f\u0072\u0020\u0073\u0069\u0067n\u0061\u0074u\u0072\u0065")
+	}
+	_bcg, _cdge := _ag.StdEncoding.DecodeString(_dea)
+	if _cdge != nil {
+		return nil, _ac.Errorf("\u0069\u006e\u0076\u0061li\u0064\u0020\u0069\u006e\u0070\u0075\u0074\u0020\u006f\u0072\u0069\u0067\u0069\u006ea\u006c")
+	}
+	_ggb, _cdge := _ag.StdEncoding.DecodeString(_fb)
+	if _cdge != nil {
+		return nil, _ac.Errorf("\u0069\u006e\u0076al\u0069\u0064\u0020\u0069\u006e\u0070\u0075\u0074\u0020\u0073\u0069\u0067\u006e\u0061\u0074\u0075\u0072\u0065")
+	}
+	_ffcc, _ := _cf.Decode([]byte(_geab))
+	if _ffcc == nil {
+		return nil, _ac.Errorf("\u0050\u0075\u0062\u004b\u0065\u0079\u0020\u0066\u0061\u0069\u006c\u0065\u0064")
+	}
+	_ed, _cdge := _ea.ParsePKIXPublicKey(_ffcc.Bytes)
+	if _cdge != nil {
+		return nil, _cdge
+	}
+	_fed := _ed.(*_gfa.PublicKey)
+	if _fed == nil {
+		return nil, _ac.Errorf("\u0050u\u0062\u004b\u0065\u0079\u0020\u0063\u006f\u006e\u0076\u0065\u0072s\u0069\u006f\u006e\u0020\u0066\u0061\u0069\u006c\u0065\u0064")
+	}
+	_gd := _cg.New()
+	_gd.Write(_bcg)
+	_cb := _gd.Sum(nil)
+	_cdge = _gfa.VerifyPKCS1v15(_fed, _a.SHA512, _cb, _ggb)
+	if _cdge != nil {
+		return nil, _cdge
+	}
+	return _bcg, nil
+}
+func _fde(_bcd, _ccfg []byte) ([]byte, error) {
+	_edcd, _bfb := _cdg.NewCipher(_bcd)
+	if _bfb != nil {
+		return nil, _bfb
+	}
+	_afe := make([]byte, _cdg.BlockSize+len(_ccfg))
+	_cea := _afe[:_cdg.BlockSize]
+	if _, _aefc := _g.ReadFull(_cfe.Reader, _cea); _aefc != nil {
+		return nil, _aefc
+	}
+	_accg := _ge.NewCFBEncrypter(_edcd, _cea)
+	_accg.XORKeyStream(_afe[_cdg.BlockSize:], _ccfg)
+	_aba := make([]byte, _ag.URLEncoding.EncodedLen(len(_afe)))
+	_ag.URLEncoding.Encode(_aba, _afe)
+	return _aba, nil
+}
+
+var _ba map[string]int
